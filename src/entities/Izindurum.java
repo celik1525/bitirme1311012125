@@ -43,7 +43,7 @@ public class Izindurum implements Serializable {
     private Integer sicil;
     @Basic(optional = false)
     @Column(name = "izinhakedis")
-    private int izinhakedis;
+    private Integer izinhakedis;
     @Column(name = "devirizin")
     private Integer devirizin;
     @Column(name = "kullan\u0131lanizin")
@@ -51,7 +51,7 @@ public class Izindurum implements Serializable {
     @Column(name = "kalanyillikizin")
     private Integer kalanyillikizin;
     @Column(name = "yolizni")
-    private Integer yolizni;
+    private Boolean yolizni;
     @Column(name = "rapor")
     private Integer rapor;
     @Column(name = "mazeretizni")
@@ -68,7 +68,7 @@ public class Izindurum implements Serializable {
         this.sicil = sicil;
     }
 
-    public Izindurum(Integer sicil, int izinhakedis) {
+    public Izindurum(Integer sicil, Integer izinhakedis) {
         this.sicil = sicil;
         this.izinhakedis = izinhakedis;
     }
@@ -81,11 +81,11 @@ public class Izindurum implements Serializable {
         this.sicil = sicil;
     }
 
-    public int getIzinhakedis() {
+    public Integer getIzinhakedis() {
         return izinhakedis;
     }
 
-    public void setIzinhakedis(int izinhakedis) {
+    public void setIzinhakedis(Integer izinhakedis) {
         this.izinhakedis = izinhakedis;
     }
 
@@ -113,13 +113,15 @@ public class Izindurum implements Serializable {
         this.kalanyillikizin = kalanyillikizin;
     }
 
-    public Integer getYolizni() {
+    public Boolean getYolizni() {
         return yolizni;
     }
 
-    public void setYolizni(Integer yolizni) {
+    public void setYolizni(Boolean yolizni) {
         this.yolizni = yolizni;
     }
+
+  
 
     public Integer getRapor() {
         return rapor;

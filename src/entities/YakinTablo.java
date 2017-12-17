@@ -5,6 +5,8 @@
  */
 package entities;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -13,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -24,6 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "YakinTablo.findAll", query = "SELECT y FROM YakinTablo y")
+    , @NamedQuery(name = "YakinTablo.findBySicil", query ="SELECT y FROM YakinTablo y WHERE y.sicil = :sicil")
     , @NamedQuery(name = "YakinTablo.findById", query = "SELECT y FROM YakinTablo y WHERE y.id = :id")
     , @NamedQuery(name = "YakinTablo.findByName", query = "SELECT y FROM YakinTablo y WHERE y.name = :name")
     , @NamedQuery(name = "YakinTablo.findBySirname", query = "SELECT y FROM YakinTablo y WHERE y.sirname = :sirname")
@@ -31,6 +35,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "YakinTablo.findByBirthdate", query = "SELECT y FROM YakinTablo y WHERE y.birthdate = :birthdate")
     , @NamedQuery(name = "YakinTablo.findByYakinlik", query = "SELECT y FROM YakinTablo y WHERE y.yakinlik = :yakinlik")})
 public class YakinTablo implements Serializable {
+
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -47,7 +54,18 @@ public class YakinTablo implements Serializable {
     private String birthdate;
     @Column(name = "yakinlik")
     private String yakinlik;
+@Column(name = "sicil")
+    private Integer sicil;
 
+    public Integer getSicil() {
+        return sicil;
+    }
+
+    public void setSicil(Integer sicil) {
+        this.sicil = sicil;
+    }
+
+    
     public YakinTablo() {
     }
 
@@ -60,7 +78,9 @@ public class YakinTablo implements Serializable {
     }
 
     public void setId(Integer id) {
+        Integer oldId = this.id;
         this.id = id;
+        changeSupport.firePropertyChange("id", oldId, id);
     }
 
     public String getName() {
@@ -68,7 +88,9 @@ public class YakinTablo implements Serializable {
     }
 
     public void setName(String name) {
+        String oldName = this.name;
         this.name = name;
+        changeSupport.firePropertyChange("name", oldName, name);
     }
 
     public String getSirname() {
@@ -76,7 +98,9 @@ public class YakinTablo implements Serializable {
     }
 
     public void setSirname(String sirname) {
+        String oldSirname = this.sirname;
         this.sirname = sirname;
+        changeSupport.firePropertyChange("sirname", oldSirname, sirname);
     }
 
     public String getTcKimlik() {
@@ -84,7 +108,9 @@ public class YakinTablo implements Serializable {
     }
 
     public void setTcKimlik(String tcKimlik) {
+        String oldTcKimlik = this.tcKimlik;
         this.tcKimlik = tcKimlik;
+        changeSupport.firePropertyChange("tcKimlik", oldTcKimlik, tcKimlik);
     }
 
     public String getBirthdate() {
@@ -92,7 +118,9 @@ public class YakinTablo implements Serializable {
     }
 
     public void setBirthdate(String birthdate) {
+        String oldBirthdate = this.birthdate;
         this.birthdate = birthdate;
+        changeSupport.firePropertyChange("birthdate", oldBirthdate, birthdate);
     }
 
     public String getYakinlik() {
@@ -100,7 +128,9 @@ public class YakinTablo implements Serializable {
     }
 
     public void setYakinlik(String yakinlik) {
+        String oldYakinlik = this.yakinlik;
         this.yakinlik = yakinlik;
+        changeSupport.firePropertyChange("yakinlik", oldYakinlik, yakinlik);
     }
 
     @Override
@@ -126,6 +156,14 @@ public class YakinTablo implements Serializable {
     @Override
     public String toString() {
         return "entities.YakinTablo[ id=" + id + " ]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

@@ -5,6 +5,8 @@
  */
 package entities;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -13,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -27,6 +30,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Yakinaile.findById", query = "SELECT y FROM Yakinaile y WHERE y.id = :id")
     , @NamedQuery(name = "Yakinaile.findByDeger", query = "SELECT y FROM Yakinaile y WHERE y.deger = :deger")})
 public class Yakinaile implements Serializable {
+
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -54,7 +60,9 @@ public class Yakinaile implements Serializable {
     }
 
     public void setId(Integer id) {
+        Integer oldId = this.id;
         this.id = id;
+        changeSupport.firePropertyChange("id", oldId, id);
     }
 
     public String getDeger() {
@@ -62,7 +70,9 @@ public class Yakinaile implements Serializable {
     }
 
     public void setDeger(String deger) {
+        String oldDeger = this.deger;
         this.deger = deger;
+        changeSupport.firePropertyChange("deger", oldDeger, deger);
     }
 
     @Override
@@ -88,6 +98,14 @@ public class Yakinaile implements Serializable {
     @Override
     public String toString() {
         return "entities.Yakinaile[ id=" + id + " ]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

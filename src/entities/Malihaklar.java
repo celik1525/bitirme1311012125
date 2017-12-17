@@ -53,11 +53,11 @@ public class Malihaklar implements Serializable {
     @Column(name = "ekgosterge")
     private Integer ekgosterge;
     @Column(name = "aileyardimi")
-    private Integer aileyardimi;
+    private Boolean aileyardimi;
     @Column(name = "cocuk")
     private Integer cocuk;
     @Column(name = "sendikaUy")
-    private Integer sendikaUy;
+    private Boolean sendikaUy;
     @Column(name = "sendika")
     private String sendika;
     @Column(name = "yabancidil")
@@ -116,14 +116,15 @@ public class Malihaklar implements Serializable {
         this.ekgosterge = ekgosterge;
     }
 
-    public Integer getAileyardimi() {
+    public Boolean getAileyardimi() {
         return aileyardimi;
     }
 
-    public void setAileyardimi(Integer aileyardimi) {
+    public void setAileyardimi(Boolean aileyardimi) {
         this.aileyardimi = aileyardimi;
     }
 
+   
     public Integer getCocuk() {
         return cocuk;
     }
@@ -132,13 +133,15 @@ public class Malihaklar implements Serializable {
         this.cocuk = cocuk;
     }
 
-    public Integer getSendikaUy() {
+    public Boolean getSendikaUy() {
         return sendikaUy;
     }
 
-    public void setSendikaUy(Integer sendikaUy) {
+    public void setSendikaUy(Boolean sendikaUy) {
         this.sendikaUy = sendikaUy;
     }
+
+   
 
     public String getSendika() {
         return sendika;

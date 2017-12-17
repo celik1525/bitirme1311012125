@@ -41,7 +41,7 @@ public class GirisTablo implements Serializable {
     @Column(name = "yetki")
     private String yetki;
     @Column(name = "image")
-    private String image;
+    private byte [] image;
     @Column(name = "kullaniciAdi")
     private String kullaniciAdi;
 
@@ -76,13 +76,15 @@ public class GirisTablo implements Serializable {
         this.yetki = yetki;
     }
 
-    public String getImage() {
+    public byte[] getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
+
+    
 
     public String getKullaniciAdi() {
         return kullaniciAdi;
