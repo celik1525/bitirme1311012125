@@ -31,7 +31,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Malihaklar.findByEkgosterge", query = "SELECT m FROM Malihaklar m WHERE m.ekgosterge = :ekgosterge")
     , @NamedQuery(name = "Malihaklar.findByAileyardimi", query = "SELECT m FROM Malihaklar m WHERE m.aileyardimi = :aileyardimi")
     , @NamedQuery(name = "Malihaklar.findByCocuk", query = "SELECT m FROM Malihaklar m WHERE m.cocuk = :cocuk")
-    , @NamedQuery(name = "Malihaklar.findBySendikaUy", query = "SELECT m FROM Malihaklar m WHERE m.sendikaUy = :sendikaUy")
     , @NamedQuery(name = "Malihaklar.findBySendika", query = "SELECT m FROM Malihaklar m WHERE m.sendika = :sendika")
     , @NamedQuery(name = "Malihaklar.findByYabancidil", query = "SELECT m FROM Malihaklar m WHERE m.yabancidil = :yabancidil")
     , @NamedQuery(name = "Malihaklar.findByDilderece", query = "SELECT m FROM Malihaklar m WHERE m.dilderece = :dilderece")
@@ -56,8 +55,7 @@ public class Malihaklar implements Serializable {
     private Boolean aileyardimi;
     @Column(name = "cocuk")
     private Integer cocuk;
-    @Column(name = "sendikaUy")
-    private Boolean sendikaUy;
+    
     @Column(name = "sendika")
     private String sendika;
     @Column(name = "yabancidil")
@@ -133,14 +131,7 @@ public class Malihaklar implements Serializable {
         this.cocuk = cocuk;
     }
 
-    public Boolean getSendikaUy() {
-        return sendikaUy;
-    }
-
-    public void setSendikaUy(Boolean sendikaUy) {
-        this.sendikaUy = sendikaUy;
-    }
-
+   
    
 
     public String getSendika() {

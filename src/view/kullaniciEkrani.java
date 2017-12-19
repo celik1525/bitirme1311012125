@@ -116,9 +116,8 @@ public void doldurMali(){
     if (aile) jTextField23.setText("Var");
     else jTextField23.setText("Yok");
     jTextField24.setText(sorgu.getSingleResult().getCocuk().toString());
-    Boolean sendika=sorgu.getSingleResult().getSendikaUy();
-    if (sendika) jTextField25.setText("Var");
-    else jTextField25.setText("Yok");
+    
+    
     jTextField26.setText(sorgu.getSingleResult().getSendika());
     jTextField27.setText(sorgu.getSingleResult().getYabancidil());
     jTextField28.setText(sorgu.getSingleResult().getDilderece());
@@ -288,7 +287,6 @@ public void doldurGorev(){
         jLabel24 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
-        jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
@@ -300,7 +298,6 @@ public void doldurGorev(){
         jTextField22 = new javax.swing.JTextField();
         jTextField23 = new javax.swing.JTextField();
         jTextField24 = new javax.swing.JTextField();
-        jTextField25 = new javax.swing.JTextField();
         jTextField26 = new javax.swing.JTextField();
         jTextField27 = new javax.swing.JTextField();
         jTextField28 = new javax.swing.JTextField();
@@ -804,13 +801,6 @@ public void doldurGorev(){
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel6.add(jLabel26, gridBagConstraints);
 
-        jLabel27.setText("Sendika Üyeliği");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel6.add(jLabel27, gridBagConstraints);
-
         jLabel28.setText("Sendika");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -884,13 +874,6 @@ public void doldurGorev(){
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
         jPanel6.add(jTextField24, gridBagConstraints);
-
-        jTextField25.setEditable(false);
-        jTextField25.setColumns(10);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
-        jPanel6.add(jTextField25, gridBagConstraints);
 
         jTextField26.setEditable(false);
         jTextField26.setColumns(10);
@@ -1805,7 +1788,7 @@ tabloGez2(tableClick);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-kimlik_format();
+if(kimlik_format()){
         String sql="insert into yakinTablo (name,sirname,tcKimlik,birthdate,yakinlik,sicil) values (?,?,?,?,?,?) ";
 try{    
  ps=conn.prepareStatement(sql);
@@ -1825,7 +1808,7 @@ finally{
      ps.close();
      rs.close();
     }catch(Exception e){}
-}
+}}
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -2042,7 +2025,6 @@ private boolean kimlik_format(){
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
@@ -2125,7 +2107,6 @@ private boolean kimlik_format(){
     private javax.swing.JTextField jTextField22;
     private javax.swing.JTextField jTextField23;
     private javax.swing.JTextField jTextField24;
-    private javax.swing.JTextField jTextField25;
     private javax.swing.JTextField jTextField26;
     private javax.swing.JTextField jTextField27;
     private javax.swing.JTextField jTextField28;

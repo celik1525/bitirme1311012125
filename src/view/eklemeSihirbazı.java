@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -63,7 +64,7 @@ public class eklemeSihirbazı extends javax.swing.JFrame {
     private ImageIcon format=null;
   private String path=null;
    byte [] personimage=null;
-           
+            
    String kimlik_Pattern="^[0-9]{11}$";
    String email_Pattern="^[a-zA-Z0-9]{1-20}@[a-zA-Z]{2-3}$";
     public eklemeSihirbazı() {
@@ -78,6 +79,7 @@ public class eklemeSihirbazı extends javax.swing.JFrame {
 em=emf.createEntityManager();
 conn=javaConnect.ConnectDb();
 FillCombo();
+
     }
 
     /**
@@ -131,19 +133,18 @@ FillCombo();
         jScrollPane1 = new javax.swing.JScrollPane();
         adresarea = new javax.swing.JTextArea();
         jLabel16 = new javax.swing.JLabel();
-        jRadioButton2 = new javax.swing.JRadioButton();
         jLabel15 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         kimlikTXT = new javax.swing.JTextField();
         jComboBox6 = new javax.swing.JComboBox();
         jLabel19 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
         jDateChooser2 = new com.toedter.calendar.JDateChooser();
         dogumyeritxt = new javax.swing.JTextField();
         telefonTXT = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
+        jComboBox2 = new javax.swing.JComboBox<>();
         izinBilgileriPano = new javax.swing.JPanel();
         jLabel33 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
@@ -168,7 +169,6 @@ FillCombo();
         kademeTXT = new javax.swing.JTextField();
         EKGosTXT = new javax.swing.JTextField();
         jLabel24 = new javax.swing.JLabel();
-        jCheckBox2 = new javax.swing.JCheckBox();
         gostergeTXT = new javax.swing.JTextField();
         jLabel48 = new javax.swing.JLabel();
         jLabel49 = new javax.swing.JLabel();
@@ -482,8 +482,6 @@ FillCombo();
 
         jLabel16.setText("Doğum Yeri");
 
-        jRadioButton2.setText("Bayan");
-
         jLabel15.setText("Cinsiyet");
 
         jLabel17.setText("Doğum Tarihi");
@@ -501,8 +499,6 @@ FillCombo();
 
         jLabel19.setText("Tc Kimlik");
 
-        jRadioButton1.setText("Erkek");
-
         jDateChooser2.setDateFormatString("dd.MMM.yyyy");
 
         jLabel20.setText("Medeni Hal");
@@ -513,6 +509,8 @@ FillCombo();
                 jButton6ActionPerformed(evt);
             }
         });
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Erkek", "Bayan" }));
 
         javax.swing.GroupLayout kimlikBilgileriLayout = new javax.swing.GroupLayout(kimlikBilgileri);
         kimlikBilgileri.setLayout(kimlikBilgileriLayout);
@@ -530,10 +528,8 @@ FillCombo();
                         .addGap(26, 26, 26)
                         .addGroup(kimlikBilgileriLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(kimlikBilgileriLayout.createSequentialGroup()
-                                .addComponent(jRadioButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jRadioButton2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 175, Short.MAX_VALUE)
+                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel20)
                                 .addGap(26, 26, 26)
                                 .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -554,7 +550,7 @@ FillCombo();
                         .addGroup(kimlikBilgileriLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(kimlikBilgileriLayout.createSequentialGroup()
                                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addGap(0, 169, Short.MAX_VALUE))
                             .addComponent(dogumyeritxt))))
                 .addContainerGap())
         );
@@ -571,13 +567,16 @@ FillCombo();
                 .addGroup(kimlikBilgileriLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel14)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9)
-                .addGroup(kimlikBilgileriLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jLabel20)
-                    .addComponent(jLabel15)
-                    .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(kimlikBilgileriLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(kimlikBilgileriLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(kimlikBilgileriLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel20)
+                            .addComponent(jLabel15)
+                            .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(kimlikBilgileriLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(kimlikBilgileriLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel17)
@@ -585,7 +584,7 @@ FillCombo();
                     .addGroup(kimlikBilgileriLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel16)
                         .addComponent(dogumyeritxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27))
         );
@@ -732,8 +731,6 @@ FillCombo();
 
         jLabel24.setText("Sendika");
 
-        jCheckBox2.setText("Sendika Üyeliği");
-
         gostergeTXT.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 gostergeTXTKeyTyped(evt);
@@ -830,8 +827,7 @@ FillCombo();
                                 .addComponent(cocTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jCheckBox1)
                             .addGroup(malHaklarPanoLayout.createSequentialGroup()
-                                .addComponent(jCheckBox2)
-                                .addGap(39, 39, 39)
+                                .addGap(136, 136, 136)
                                 .addComponent(jLabel24)
                                 .addGap(18, 18, 18)
                                 .addComponent(jComboBox9, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -865,9 +861,8 @@ FillCombo();
                         .addGroup(malHaklarPanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel49)
                             .addComponent(gostergeTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBox2)
                             .addComponent(jLabel24))
-                        .addGap(4, 4, 4)
+                        .addGap(6, 6, 6)
                         .addGroup(malHaklarPanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel50)
                             .addComponent(EKGosTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1017,7 +1012,7 @@ FillCombo();
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(yolTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1036,7 +1031,7 @@ FillCombo();
         jDesktopPane2.setLayout(jDesktopPane2Layout);
         jDesktopPane2Layout.setHorizontalGroup(
             jDesktopPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 353, Short.MAX_VALUE)
+            .addGap(0, 354, Short.MAX_VALUE)
         );
         jDesktopPane2Layout.setVerticalGroup(
             jDesktopPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1081,7 +1076,7 @@ FillCombo();
                             .addComponent(jButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(33, 33, 33)
                         .addComponent(jDesktopPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(140, Short.MAX_VALUE))
+                .addContainerGap(139, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1090,13 +1085,13 @@ FillCombo();
                 .addComponent(jLabel36)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDesktopPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jDesktopPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
 
@@ -1214,16 +1209,10 @@ private boolean kimlik_format(){
     }else return true;
 }
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        if(kimlik_format()){
-            String gender;
-            if (jRadioButton1.isSelected())
-            gender="Erkek";
-            else if (jRadioButton2.isSelected())
-            gender="Bayan";
-            else gender="";
+        if(kimlik_format()){            
             try{
                 kt.setAdres(adresarea.getText());
-                kt.setCinsiyet(gender);
+                kt.setCinsiyet(jComboBox2.getSelectedItem().toString());
                 kt.setDogumtarihi(((JTextField) jDateChooser2.getDateEditor().getUiComponent()).getText());
                 kt.setDogumyeri(dogumyeritxt.getText());
                 kt.setMedenihal(jComboBox6.getSelectedItem().toString());
@@ -1398,7 +1387,6 @@ private boolean kimlik_format(){
             mh.setMezuniyet(jComboBox1.getSelectedItem().toString());
             mh.setMezuniyetBolum(jTextField19.getText());
             mh.setSendika(jComboBox9.getSelectedItem().toString());
-            mh.setSendikaUy(jCheckBox2.isSelected());
             mh.setSicil(Integer.parseInt(sicilTF.getText()));
             mh.setYabancidil(yabanciDilCombo.getSelectedItem().toString());
             em.getTransaction().begin();
@@ -1459,26 +1447,8 @@ private boolean kimlik_format(){
             em.getTransaction().begin();
             em.persist(gt);
             em.getTransaction().commit();
-            //em.getTransaction().begin();
-            //em.persist(at);
-            //em.getTransaction().commit();
-            //em.persist(mh);
-            //
-            //em.getTransaction().commit();
-            //em.persist(iz);
-            //em.getTransaction().commit();
-            //em.persist(kt);
-            //em.getTransaction().commit();
-            //em.persist(gt);
-            //em.getTransaction().commit();
-            //        tas.baglan();
-            //        tas.ekle(at);
-            //        tas.ekle(mh);
-            //        tas.ekle(iz);
-            //        tas.ekle(kt);
-            //        tas.ekle(gt);
-            surec.setValue(5);
-            //        em.close();
+          surec.setValue(5);
+            
             dispose();
         }catch(Exception e){
             em.getTransaction().rollback();
@@ -1500,30 +1470,13 @@ private boolean kimlik_format(){
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         try {
 
-            //  webcam.open();
-            //  webcam.setViewSize(jPanel4.getSize());
+           
             Webcam webcam=Webcam.getDefault();
             BufferedImage image=webcam.getImage();
 
             ImageIO.write(resizeImage(image, 10), "PNG", new File("test.png"));
             webcam.close();
             ic = new ImageIcon("test.png");
-            //
-            //            jLabel1.setIcon(ic);
-            //            jPanel2.removeAll();
-            //            jLabel1.setLocation(0,0);
-            //            jLabel1.setSize(jPanel2.getSize());
-            //            jPanel2.add(jLabel1);
-            //                        jPanel3.setVisible(true);
-            //            jPanel2.repaint();
-            //                        jPanel1.setVisible(false);
-            ////
-            //         JFileChooser chooser=new JFileChooser();
-            //        chooser.showOpenDialog(null);
-            //        File f=chooser.getSelectedFile();
-            //        path=f.getAbsolutePath();
-            //        yolTF.setText(path);
-            //        Icon fi=new ImageIcon(path);
             resimLabel.setIcon(ic);
             jPanelSlider1.nextPanel(40, GirisBilgileriPano, JPanelSlider.left);
             File images=new File("test.png");
@@ -1535,16 +1488,11 @@ private boolean kimlik_format(){
                 baos.write(buf,0,readNum);
             }
             personimage =baos.toByteArray();
-            //        }catch(Exception e){
-            //
-            //        }
-
-        // TODO add your handling code here:
-        } catch (IOException ex) {
+           } catch (IOException ex) {
             Logger.getLogger(eklemeSihirbazı.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jButton9ActionPerformed
 private static BufferedImage resizeImage(BufferedImage originalImage, int type) {
     int IMG_WIDTH = 120;
@@ -1651,11 +1599,11 @@ private static BufferedImage resizeImage(BufferedImage originalImage, int type) 
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox10;
     private javax.swing.JComboBox jComboBox13;
+    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox jComboBox6;
     private javax.swing.JComboBox jComboBox7;
     private javax.swing.JComboBox jComboBox9;
@@ -1711,8 +1659,6 @@ private static BufferedImage resizeImage(BufferedImage originalImage, int type) 
     private javax.swing.JPanel jPanel4;
     private diu.swe.habib.JPanelSlider.JPanelSlider jPanelSlider1;
     private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField15;

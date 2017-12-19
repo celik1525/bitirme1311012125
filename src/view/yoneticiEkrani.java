@@ -595,43 +595,43 @@ TCkimlik_TF.setText(query.getSingleResult().getTCKimlik());
  Derece_TF.setText(sor.getSingleResult().getDerece().toString());
  Kademe_TF.setText(sor.getSingleResult().getKademe().toString());
  KalanIzin_TF.setText(sorg.getSingleResult().getKalanyillikizin().toString());
-//  List<KimlikTablo> sonuc = query.getResultList();
+javaConnect.sicil=sicil;
   
     
     } catch(Exception e){
          }
     }
-    private void donatTF(int sicil){
-    String sql="SELECT a.sicil, a.name, a.sirname, a.unvan, k.telefon, k.TCKimlik, m.derece,"
-            + " m.kademe, i.kalanYillikizin, g.image FROM atamaTablo a, KimlikTablo k,"
-            + " maliHaklar m, izindurum i, girisTablo g where  a.sicil=k.sicil and"
-            + " k.sicil=m.sicil and m.sicil=i.sicil and i.sicil=g.sicil and g.sicil=?";
-try{
-    ps=conn.prepareStatement(sql);
-    ps.setInt(1, sicil);
-    ps.execute();
-    if(rs.next()){
-        Sicil_TF.setText(rs.getString(1));
-        isim_TF.setText(rs.getString(2));
-        Soyisim_TF.setText(rs.getString(3));
-        Unvan_TF.setText(rs.getString(4));
-        telefon_TF.setText(rs.getString(5));
-        TCkimlik_TF.setText(rs.getString(6));
-        Derece_TF.setText(rs.getString(7));
-        Kademe_TF.setText(rs.getString(8));
-        KalanIzin_TF.setText(rs.getString(8));
-         byte [] imagedata=rs.getBytes(9);
-    format=new ImageIcon(imagedata);
-    imajLabel.setIcon(format);
-    }
-}catch(Exception e){}
-finally{
-    try{
-        rs.close();
-        ps.close();
-    }catch(Exception e){}
-}
-}
+//    private void donatTF(int sicil){
+//    String sql="SELECT a.sicil, a.name, a.sirname, a.unvan, k.telefon, k.TCKimlik, m.derece,"
+//            + " m.kademe, i.kalanYillikizin, g.image FROM atamaTablo a, KimlikTablo k,"
+//            + " maliHaklar m, izindurum i, girisTablo g where  a.sicil=k.sicil and"
+//            + " k.sicil=m.sicil and m.sicil=i.sicil and i.sicil=g.sicil and g.sicil=?";
+//try{
+//    ps=conn.prepareStatement(sql);
+//    ps.setInt(1, sicil);
+//    ps.execute();
+//    if(rs.next()){
+//        Sicil_TF.setText(rs.getString(1));
+//        isim_TF.setText(rs.getString(2));
+//        Soyisim_TF.setText(rs.getString(3));
+//        Unvan_TF.setText(rs.getString(4));
+//        telefon_TF.setText(rs.getString(5));
+//        TCkimlik_TF.setText(rs.getString(6));
+//        Derece_TF.setText(rs.getString(7));
+//        Kademe_TF.setText(rs.getString(8));
+//        KalanIzin_TF.setText(rs.getString(8));
+//         byte [] imagedata=rs.getBytes(9);
+//    format=new ImageIcon(imagedata);
+//    imajLabel.setIcon(format);
+//    }
+//}catch(Exception e){}
+//finally{
+//    try{
+//        rs.close();
+//        ps.close();
+//    }catch(Exception e){}
+//}
+//}
     private void jTextField5KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField5KeyReleased
         try{
             String sql="select * from atamaTablo where name=?";
@@ -826,6 +826,9 @@ ekle.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void UPDATEBUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UPDATEBUTTONActionPerformed
+kisiGuncelle guncelle=new kisiGuncelle();
+guncelle.setVisible(true);
+        
         // TODO add your handling code here:
     }//GEN-LAST:event_UPDATEBUTTONActionPerformed
 
@@ -941,7 +944,8 @@ updateTable();
  byte [] personimage=null;
  
  private void FillCombo() {
-    try{
+    jComboBox1.removeAllItems();
+     try{
         String sql="select * from atamaTablo";
         ps=conn.prepareStatement(sql);
         rs=ps.executeQuery();
@@ -965,6 +969,7 @@ updateTable();
     }
  private void updateTable() {
     try{
+        
         String sql="Select * from atamaTablo";
         ps=conn.prepareStatement(sql);
         rs=ps.executeQuery();
