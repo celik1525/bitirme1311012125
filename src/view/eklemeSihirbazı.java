@@ -28,6 +28,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -53,7 +55,7 @@ public class eklemeSihirbazı extends javax.swing.JFrame {
     Connection conn=null;
     PreparedStatement ps=null;
             AtamaTablo at;
-    
+    Date bugun=new Date();
     KimlikTablo kt;
     Izindurum iz;
     Malihaklar mh;
@@ -157,7 +159,9 @@ FillCombo();
         jButton7 = new javax.swing.JButton();
         jTextField5 = new javax.swing.JTextField();
         jLabel35 = new javax.swing.JLabel();
-        jCheckBox3 = new javax.swing.JCheckBox();
+        jTextField6 = new javax.swing.JTextField();
+        jLabel34 = new javax.swing.JLabel();
+        jLabel38 = new javax.swing.JLabel();
         malHaklarPano = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
         jLabel47 = new javax.swing.JLabel();
@@ -310,7 +314,7 @@ FillCombo();
 
         gorevSekliCombo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
-        jDateChooser1.setDateFormatString("dd.MMM.yyyy");
+        jDateChooser1.setDateFormatString("dd.MM.yyyy");
         jDateChooser1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         birimCombo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -359,9 +363,9 @@ FillCombo();
             }
         });
 
-        jLabel37.setText("Memuriyete Basşlama");
+        jLabel37.setText("Memuriyete Başlama");
 
-        jDateChooser4.setDateFormatString("dd.MMM.yyyy");
+        jDateChooser4.setDateFormatString("dd.MM.yyyy");
 
         javax.swing.GroupLayout AtamaBilgileriPanoLayout = new javax.swing.GroupLayout(AtamaBilgileriPano);
         AtamaBilgileriPano.setLayout(AtamaBilgileriPanoLayout);
@@ -373,10 +377,6 @@ FillCombo();
                     .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 589, Short.MAX_VALUE)
                     .addGroup(AtamaBilgileriPanoLayout.createSequentialGroup()
                         .addGroup(AtamaBilgileriPanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(AtamaBilgileriPanoLayout.createSequentialGroup()
-                                .addComponent(jLabel37)
-                                .addGap(18, 18, 18)
-                                .addComponent(jDateChooser4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(AtamaBilgileriPanoLayout.createSequentialGroup()
                                 .addComponent(jLabel12)
                                 .addGap(9, 9, 9)
@@ -396,23 +396,29 @@ FillCombo();
                                     .addComponent(SirnameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(sicilTF, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(18, 18, 18)
-                        .addGroup(AtamaBilgileriPanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AtamaBilgileriPanoLayout.createSequentialGroup()
-                                .addGroup(AtamaBilgileriPanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                        .addGroup(AtamaBilgileriPanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(AtamaBilgileriPanoLayout.createSequentialGroup()
-                                .addComponent(jLabel29)
-                                .addGap(13, 13, 13)))
-                        .addGroup(AtamaBilgileriPanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(atamaCombo, 0, 239, Short.MAX_VALUE)
-                            .addComponent(birimCombo, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(UnvanCombo, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(gorevCombo, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(gorevSekliCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(AtamaBilgileriPanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AtamaBilgileriPanoLayout.createSequentialGroup()
+                                        .addGroup(AtamaBilgileriPanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                    .addGroup(AtamaBilgileriPanoLayout.createSequentialGroup()
+                                        .addComponent(jLabel29)
+                                        .addGap(13, 13, 13)))
+                                .addGroup(AtamaBilgileriPanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(atamaCombo, 0, 239, Short.MAX_VALUE)
+                                    .addComponent(birimCombo, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(UnvanCombo, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(gorevCombo, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(gorevSekliCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(AtamaBilgileriPanoLayout.createSequentialGroup()
+                                .addComponent(jLabel37)
+                                .addGap(18, 18, 18)
+                                .addComponent(jDateChooser4, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -499,7 +505,7 @@ FillCombo();
 
         jLabel19.setText("Tc Kimlik");
 
-        jDateChooser2.setDateFormatString("dd.MMM.yyyy");
+        jDateChooser2.setDateFormatString("dd.MM.yyyy");
 
         jLabel20.setText("Medeni Hal");
 
@@ -542,9 +548,9 @@ FillCombo();
                             .addComponent(jScrollPane1)))
                     .addGroup(kimlikBilgileriLayout.createSequentialGroup()
                         .addComponent(jLabel17)
-                        .addGap(18, 18, 18)
-                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel16)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(kimlikBilgileriLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -636,7 +642,11 @@ FillCombo();
 
         jLabel35.setText("Özürsüz işe gelmeme");
 
-        jCheckBox3.setText("Yol İzni Kullandı");
+        jTextField6.setText("0");
+
+        jLabel34.setText("Yol İzni Kullandı");
+
+        jLabel38.setText("Gün");
 
         javax.swing.GroupLayout izinBilgileriPanoLayout = new javax.swing.GroupLayout(izinBilgileriPano);
         izinBilgileriPano.setLayout(izinBilgileriPanoLayout);
@@ -652,23 +662,30 @@ FillCombo();
                             .addComponent(jLabel31))
                         .addGap(62, 62, 62)
                         .addGroup(izinBilgileriPanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(izinBilgileriPanoLayout.createSequentialGroup()
+                                .addComponent(jComboBox13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, izinBilgileriPanoLayout.createSequentialGroup()
                                 .addGroup(izinBilgileriPanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(devirizin, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
                                 .addGroup(izinBilgileriPanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel35)
+                                    .addComponent(jLabel34))
+                                .addGap(63, 63, 63)
+                                .addGroup(izinBilgileriPanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(izinBilgileriPanoLayout.createSequentialGroup()
-                                        .addComponent(jLabel35)
-                                        .addGap(63, 63, 63)
-                                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jCheckBox3)))))
+                                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel38)))
+                                .addGap(83, 83, 83))))
                     .addGroup(izinBilgileriPanoLayout.createSequentialGroup()
                         .addComponent(jLabel33)
                         .addGap(92, 92, 92)
-                        .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(116, 116, 116))
+                        .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(108, 108, 108))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, izinBilgileriPanoLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -681,18 +698,25 @@ FillCombo();
                 .addGroup(izinBilgileriPanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel30)
                     .addComponent(jComboBox13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(izinBilgileriPanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(izinBilgileriPanoLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(izinBilgileriPanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel31)
+                            .addComponent(devirizin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel35))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(izinBilgileriPanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel32)
+                            .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(izinBilgileriPanoLayout.createSequentialGroup()
+                        .addGap(45, 45, 45)
+                        .addGroup(izinBilgileriPanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel34)
+                            .addComponent(jLabel38))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(izinBilgileriPanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel31)
-                    .addComponent(devirizin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel35))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(izinBilgileriPanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel32)
-                    .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(izinBilgileriPanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel33)
                     .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1165,7 +1189,14 @@ private void doldur(String tabloAdi,JComboBox komboAdi){
         jTextField3.setText(SirnameTF.getText());
         jTextField1.setText(sicilTF.getText());
         jTextField4.setText(UnvanCombo.getModel().getSelectedItem().toString());
-        try{
+       int yilfark=bugun.getYear()-jDateChooser4.getDate().getYear();
+       if (yilfark>10){
+           jComboBox13.setSelectedIndex(1);
+       }else jComboBox13.setSelectedIndex(0);
+        if(jComboBox6.getSelectedIndex()==1){
+            jCheckBox1.setSelected(true);
+        }
+       try{
             at.setAtamaTarihi(((JTextField) jDateChooser1.getDateEditor().getUiComponent()).getText());
             at.setAtamasekli(atamaCombo.getSelectedItem().toString());
             at.setBirim(birimCombo.getSelectedItem().toString());
@@ -1292,7 +1323,7 @@ private boolean kimlik_format(){
             iz.setMazeretizni(Integer.parseInt(jTextField15.getText()));
             iz.setOzursuz(Integer.parseInt(jTextField5.getText()));
             iz.setRapor(Integer.parseInt(jTextField16.getText()));
-            iz.setYolizni(jCheckBox3.isSelected());
+            iz.setYolizni(Integer.parseInt(jTextField6.getText()));
             iz.setSicil(Integer.parseInt(sicilTF.getText()));
             iz.setKullanılanizin(ki);
           
@@ -1599,7 +1630,6 @@ private static BufferedImage resizeImage(BufferedImage originalImage, int type) 
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox10;
     private javax.swing.JComboBox jComboBox13;
@@ -1639,9 +1669,11 @@ private static BufferedImage resizeImage(BufferedImage originalImage, int type) 
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
@@ -1669,6 +1701,7 @@ private static BufferedImage resizeImage(BufferedImage originalImage, int type) 
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField kademeTXT;
     private javax.swing.JPanel kimlikBilgileri;
     private javax.swing.JTextField kimlikTXT;

@@ -133,10 +133,7 @@ public void doldurIzin(){
     jTextField32.setText(sorgu.getSingleResult().getDevirizin().toString());
     jTextField33.setText(sorgu.getSingleResult().getKullanılanizin().toString());
     jTextField34.setText(sorgu.getSingleResult().getKalanyillikizin().toString());
-    Boolean yol=sorgu.getSingleResult().getYolizni();
-    if (yol) jTextField35.setText("Var");
-    else jTextField35.setText("Yok");
-     
+    jTextField35.setText(sorgu.getSingleResult().getYolizni().toString());
     jTextField36.setText(sorgu.getSingleResult().getRapor().toString());
     jTextField37.setText(sorgu.getSingleResult().getMazeretizni().toString());
     jTextField38.setText(sorgu.getSingleResult().getOzursuz().toString());
@@ -1050,7 +1047,7 @@ public void doldurGorev(){
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel8.add(jTextField51, gridBagConstraints);
 
-        jDateChooser2.setDateFormatString("dd.MMM.yyyy");
+        jDateChooser2.setDateFormatString("dd.MM.yyyy");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
@@ -1300,7 +1297,7 @@ public void doldurGorev(){
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel9.add(jComboBox1, gridBagConstraints);
 
-        jDateChooser1.setDateFormatString("dd.MMM.yyyy");
+        jDateChooser1.setDateFormatString("dd.MM.yyyy");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;

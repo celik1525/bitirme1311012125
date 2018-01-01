@@ -1173,7 +1173,7 @@
                 </Component>
                 <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser2">
                   <Properties>
-                    <Property name="dateFormatString" type="java.lang.String" value="dd.MMM.yyyy"/>
+                    <Property name="dateFormatString" type="java.lang.String" value="dd.MM.yyyy"/>
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -1533,7 +1533,7 @@
                 </Component>
                 <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
                   <Properties>
-                    <Property name="dateFormatString" type="java.lang.String" value="dd.MMM.yyyy"/>
+                    <Property name="dateFormatString" type="java.lang.String" value="dd.MM.yyyy"/>
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

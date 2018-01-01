@@ -14,6 +14,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
@@ -39,13 +43,16 @@ import org.jfree.data.general.DefaultPieDataset;
  * @author Ruhi ÇELİK
  */
 public class yoneticiEkrani extends javax.swing.JFrame {
-Connection conn=null;
+
+    Connection conn=null;
 ResultSet rs=null;
 PreparedStatement ps=null;
     EntityManager em=null;
     EntityManagerFactory emf=null;
 int sicil=0;    
-    public yoneticiEkrani() {
+int buyil=0;
+
+public yoneticiEkrani() {
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 conn=javaConnect.ConnectDb();
@@ -54,7 +61,11 @@ emf=javax.persistence.Persistence.createEntityManagerFactory("personelOtamasyonP
         em=emf.createEntityManager();
     FillCombo();
     updateTable();
-    }
+
+    curDate();
+    yilKontrol();
+    
+}
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -111,12 +122,20 @@ emf=javax.persistence.Persistence.createEntityManagerFactory("personelOtamasyonP
 
         jToolBar1.setBackground(new java.awt.Color(204, 204, 255));
         jToolBar1.setRollover(true);
-        jToolBar1.setPreferredSize(new java.awt.Dimension(100, 40));
+        jToolBar1.setMaximumSize(new java.awt.Dimension(66, 70));
+        jToolBar1.setMinimumSize(new java.awt.Dimension(66, 70));
+        jToolBar1.setPreferredSize(new java.awt.Dimension(100, 70));
 
-        jButton1.setText("jButton1");
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/32x32/autos.png"))); // NOI18N
+        jButton1.setText("izin Ekranı");
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton1);
 
         getContentPane().add(jToolBar1, java.awt.BorderLayout.PAGE_START);
@@ -302,15 +321,15 @@ emf=javax.persistence.Persistence.createEntityManagerFactory("personelOtamasyonP
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(147, 147, 147)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
+                .addContainerGap(131, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(39, 39, 39)
                     .addComponent(jDesktopPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(812, Short.MAX_VALUE)))
+                    .addContainerGap(439, Short.MAX_VALUE)))
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
@@ -396,6 +415,7 @@ emf=javax.persistence.Persistence.createEntityManagerFactory("personelOtamasyonP
                 .addContainerGap())
         );
 
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/32x32/arrow_refresh.png"))); // NOI18N
         jButton3.setText("Güncelle");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -426,13 +446,15 @@ emf=javax.persistence.Persistence.createEntityManagerFactory("personelOtamasyonP
                         .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(551, Short.MAX_VALUE))
+                .addContainerGap(178, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel2, java.awt.BorderLayout.LINE_END);
+        getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
         jPanel3.setBackground(new java.awt.Color(204, 255, 204));
-        jPanel3.setMaximumSize(new java.awt.Dimension(50, 100));
+        jPanel3.setMaximumSize(new java.awt.Dimension(150, 570));
+        jPanel3.setMinimumSize(new java.awt.Dimension(150, 570));
+        jPanel3.setPreferredSize(new java.awt.Dimension(150, 569));
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.MatteBorder(null), "Hızlı İşlem Düğmeleri", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 255))); // NOI18N
 
@@ -531,26 +553,21 @@ emf=javax.persistence.Persistence.createEntityManagerFactory("personelOtamasyonP
                 .addComponent(ChartBT, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
+            .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jPanel3, java.awt.BorderLayout.LINE_END);
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -632,6 +649,158 @@ javaConnect.sicil=sicil;
 //    }catch(Exception e){}
 //}
 //}
+private void hakedisDuzelt(int sicil){
+    String sql="UPDATE izindurum set izinhakedis=? where sicil=?";
+    try{
+        ps=conn.prepareStatement(sql);
+        ps.setInt(1, 30);
+        ps.setInt(2, sicil);
+        ps.executeUpdate();
+    }catch(Exception e){}
+    finally{
+        try{
+            rs.close();
+            ps.close();
+        }catch(Exception e){}
+    }
+}
+    private void hakedisKontrol(){
+    String sql="select * from atamaTablo";
+    int devirYil=0;
+    try{
+        ps=conn.prepareStatement(sql);
+    rs=ps.executeQuery();
+    if(rs.next())
+    {
+        
+        Date ilk=rs.getDate(11);
+        devirYil=buyil-ilk.getYear();
+       System.out.println(devirYil+" "+ilk.getYear());
+        int sic=rs.getInt("sicil");
+        System.out.println(sic+"-"+ilk.getYear());
+        if (devirYil>10){
+            hakedisDuzelt(sic);
+            System.out.println("Yildurum duzeltildi");
+        }
+    }
+    }catch(Exception e){}
+    finally{
+        try{
+            rs.close();
+            ps.close();
+        }catch(Exception e){}
+    }
+}
+    
+private void updateizinYilDonum(){
+    String sql="SELECT * FROM izindurum";
+    
+    hakedisKontrol();
+    try{
+        System.out.println("j");
+        ps=conn.prepareStatement(sql);
+        rs=ps.executeQuery();
+        while (rs.next()){
+        int    kalan=rs.getInt("kalanyillikizin");
+        int    hakedis=rs.getInt("izinhakedis");
+        int sicl=rs.getInt("sicil");
+        izinDuzenle(kalan, hakedis, sicl);
+        }     
+    }
+        
+    catch(Exception e){
+        
+    }finally{
+        try{
+            rs.close();
+        ps.close();
+        } catch(Exception e){
+        
+    }
+    }
+       
+}
+private void izinDuzenle(int kalann,int hakediss,int sicill){
+    if(kalann>hakediss)
+        kalann=hakediss;
+ 
+    
+        try{
+        String sql1="UPDATE izindurum set devirizin=? where sicil=?";
+            
+        ps=conn.prepareStatement(sql1);
+        ps.setInt(1, kalann);
+        ps.setInt(2, sicill);
+        ps.executeUpdate();
+    } catch(Exception e){
+        }finally{
+        try{
+            rs.close();
+        ps.close();
+        } catch(Exception e){
+       
+    }
+    }
+
+}
+
+private void yilKontrol(){
+    String sql="select * from yildurum";
+    try{
+        ps=conn.prepareStatement(sql);
+        rs=ps.executeQuery();
+        if (rs.next()){
+            int yil=rs.getInt("yil");
+            if(buyil!=yil){
+                int p=JOptionPane.showConfirmDialog(null," Yıl değişikliği algılandı. İzin durumları Güncellensinmi","Değiştir",JOptionPane.YES_NO_OPTION );
+                if(p==0){
+                    updateizinYilDonum();
+                    updateYil();
+                }
+            }
+        }
+    }catch(Exception e){
+            }finally{
+                try{
+                    rs.close();
+                    ps.close();
+                } catch(Exception e){
+
+                }}
+}
+private void curDate(){
+    Calendar cal=new GregorianCalendar();
+    int month=cal.get(Calendar.MONTH);
+    int year=cal.get(Calendar.YEAR);
+    int day=cal.get(Calendar.DAY_OF_MONTH);
+    buyil=year;
+    
+    
+    int hour=cal.get(Calendar.HOUR);
+    int second=cal.get(Calendar.SECOND);
+    int minute=cal.get(Calendar.MINUTE);
+    
+}
+
+private void updateYil(){
+    String sql="update yildurum set yil=? ";
+    try{
+           ps=conn.prepareStatement(sql);
+        ps.setInt(1, buyil);
+     ps.executeUpdate();
+     JOptionPane.showMessageDialog(null, "Yıl güncellendi");
+        
+    }catch(Exception e){
+            }finally{
+                try{
+                    rs.close();
+                    ps.close();
+                } catch(Exception e){
+
+                }
+    
+    }
+}
     private void jTextField5KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField5KeyReleased
         try{
             String sql="select * from atamaTablo where name=?";
@@ -857,6 +1026,12 @@ FillCombo();
 updateTable();
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+izinEkran ekran=new izinEkran();
+ekran.setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

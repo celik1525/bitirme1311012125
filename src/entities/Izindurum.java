@@ -51,7 +51,7 @@ public class Izindurum implements Serializable {
     @Column(name = "kalanyillikizin")
     private Integer kalanyillikizin;
     @Column(name = "yolizni")
-    private Boolean yolizni;
+    private Integer yolizni;
     @Column(name = "rapor")
     private Integer rapor;
     @Column(name = "mazeretizni")
@@ -113,14 +113,15 @@ public class Izindurum implements Serializable {
         this.kalanyillikizin = kalanyillikizin;
     }
 
-    public Boolean getYolizni() {
+    public Integer getYolizni() {
         return yolizni;
     }
 
-    public void setYolizni(Boolean yolizni) {
+    public void setYolizni(Integer yolizni) {
         this.yolizni = yolizni;
     }
 
+   
   
 
     public Integer getRapor() {

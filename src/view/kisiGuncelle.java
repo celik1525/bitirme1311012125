@@ -138,10 +138,9 @@ public void doldurIzin(int sicil){
     
    
     jTextField17.setText(sorgu.getSingleResult().getKalanyillikizin().toString());
-    Boolean yol=sorgu.getSingleResult().getYolizni();
-    if (yol) jTextField31.setText("Var");
-    else jTextField31.setText("Yok");
-     
+    String yol=sorgu.getSingleResult().getYolizni().toString();
+    jTextField31.setText(yol);
+       
     jTextField18.setText(sorgu.getSingleResult().getRapor().toString());
     jTextField20.setText(sorgu.getSingleResult().getMazeretizni().toString());
     jTextField36.setText(sorgu.getSingleResult().getOzursuz().toString());
@@ -1396,7 +1395,7 @@ at=em.find(AtamaTablo.class, sicil);
         gbc.gridy=0;
      p.setLayout(bl);
      JDateChooser chooser=new JDateChooser();
-        chooser.setDateFormatString("dd.MMM.yyyy");
+        chooser.setDateFormatString("dd.MM.yyyy");
         JButton b1=new JButton("Değiştir");
         b1.addActionListener(new ActionListener() {
          @Override
@@ -1524,7 +1523,7 @@ at=em.find(AtamaTablo.class, sicil);
         gbc.gridy=0;
      p.setLayout(bl);
      JDateChooser chooser=new JDateChooser();
-        chooser.setDateFormatString("dd.MMM.yyyy");
+        chooser.setDateFormatString("dd.MM.yyyy");
         JButton b1=new JButton("Değiştir");
         b1.addActionListener(new ActionListener() {
          @Override
@@ -2045,7 +2044,7 @@ JFrame p=new JFrame();
         gbc.gridy=0;
      p.setLayout(bl);
      JComboBox kombo=new JComboBox();
-     String[] liste={"Kullandı", "Kullanmadı"};
+     String[] liste={"kullanmadı","2 Gün Kullandı","4 gün kullandı"};
   for (int i=0;i<liste.length;i++){
      kombo.addItem(liste[i]);
   }
@@ -2053,10 +2052,11 @@ JFrame p=new JFrame();
         b1.addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
-             String k=kombo.getSelectedItem().toString();
-            Boolean d;
-            if (k.equalsIgnoreCase("Kullandı"))d=true;
-            else d=false;
+             
+            int d;
+            if (kombo.getSelectedIndex()==0)d=0;
+            else if (kombo.getSelectedIndex()==1)d=2;
+            else d=4;
              id=em.find(Izindurum.class, sicil); 
         id.setYolizni(d);
         degistir(id);
@@ -2109,7 +2109,7 @@ kt.setTelefon(name);
         gbc.gridy=0;
      p.setLayout(bl);
      JDateChooser chooser=new JDateChooser();
-        chooser.setDateFormatString("dd.MMM.yyyy");
+        chooser.setDateFormatString("dd.MM.yyyy");
         JButton b1=new JButton("Değiştir");
         b1.addActionListener(new ActionListener() {
          @Override
