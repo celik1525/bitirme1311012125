@@ -389,6 +389,7 @@ public void doldurGorev(){
         jTextField60 = new javax.swing.JTextField();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTable4 = new javax.swing.JTable();
+        jPanel11 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 255, 204));
@@ -1454,7 +1455,7 @@ public void doldurGorev(){
         gridBagConstraints.gridy = 3;
         jPanel10.add(jLabel61, gridBagConstraints);
 
-        jLabel62.setText("Süre");
+        jLabel62.setText("Senesi");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -1561,6 +1562,19 @@ public void doldurGorev(){
         jPanel10.add(jScrollPane5, gridBagConstraints);
 
         kimlikPanel.addTab("Görevlendirme", jPanel10);
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 678, Short.MAX_VALUE)
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 370, Short.MAX_VALUE)
+        );
+
+        kimlikPanel.addTab("tab9", jPanel11);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -1855,14 +1869,14 @@ temizle2();
 
     private void jTable4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable4MouseClicked
  int row=jTable4.getSelectedRow();
- int tableClick=Integer.parseInt((jTable1.getModel().getValueAt(row, 0)));
+ int tableClick=Integer.parseInt((jTable4.getModel().getValueAt(row, 0)));
         tabloGez3(tableClick);
     }//GEN-LAST:event_jTable4MouseClicked
 
     private void jTable4KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable4KeyReleased
  if(evt.getKeyCode()==KeyEvent.VK_UP||evt.getKeyCode()==KeyEvent.VK_DOWN){
 int row=jTable4.getSelectedRow();
- int tableClick=Integer.parseInt((jTable1.getModel().getValueAt(row, 0)));
+ int tableClick=Integer.parseInt((jTable4.getModel().getValueAt(row, 0)));
         tabloGez3(tableClick);}        // TODO add your handling code here:
     }//GEN-LAST:event_jTable4KeyReleased
 
@@ -2069,6 +2083,7 @@ private boolean kimlik_format(){
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;

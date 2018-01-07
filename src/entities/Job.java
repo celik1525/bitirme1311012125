@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Job.findBySicil", query = "SELECT j FROM Job j WHERE j.sicil = :sicil")
     , @NamedQuery(name = "Job.findByBegin", query = "SELECT j FROM Job j WHERE j.begin = :begin")
     , @NamedQuery(name = "Job.findByEnd", query = "SELECT j FROM Job j WHERE j.end = :end")
-    , @NamedQuery(name = "Job.findBySure", query = "SELECT j FROM Job j WHERE j.sure = :sure")
+    , @NamedQuery(name = "Job.findBySenesi", query = "SELECT j FROM Job j WHERE j.senesi = :senesi")
     , @NamedQuery(name = "Job.findByBirim", query = "SELECT j FROM Job j WHERE j.birim = :birim")
     , @NamedQuery(name = "Job.findByGorev", query = "SELECT j FROM Job j WHERE j.gorev = :gorev")
     , @NamedQuery(name = "Job.findByGorevsekli", query = "SELECT j FROM Job j WHERE j.gorevsekli = :gorevsekli")})
@@ -45,8 +45,8 @@ public class Job implements Serializable {
     private String begin;
     @Column(name = "end")
     private String end;
-    @Column(name = "sure")
-    private Integer sure;
+    @Column(name = "senesi")
+    private Integer senesi;
     @Column(name = "birim")
     private String birim;
     @Column(name = "gorev")
@@ -93,13 +93,15 @@ public class Job implements Serializable {
         this.end = end;
     }
 
-    public Integer getSure() {
-        return sure;
+    public Integer getSenesi() {
+        return senesi;
     }
 
-    public void setSure(Integer sure) {
-        this.sure = sure;
+    public void setSenesi(Integer senesi) {
+        this.senesi = senesi;
     }
+
+   
 
     public String getBirim() {
         return birim;

@@ -73,6 +73,7 @@ emf=javax.persistence.Persistence.createEntityManagerFactory("personelOtamasyonP
 
         jToolBar1 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jDesktopPane2 = new javax.swing.JDesktopPane();
         imajLabel = new javax.swing.JLabel();
@@ -126,6 +127,7 @@ emf=javax.persistence.Persistence.createEntityManagerFactory("personelOtamasyonP
         jToolBar1.setMinimumSize(new java.awt.Dimension(66, 70));
         jToolBar1.setPreferredSize(new java.awt.Dimension(100, 70));
 
+        jButton1.setBackground(new java.awt.Color(204, 255, 204));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/32x32/autos.png"))); // NOI18N
         jButton1.setText("izin Ekranı");
         jButton1.setFocusable(false);
@@ -137,6 +139,19 @@ emf=javax.persistence.Persistence.createEntityManagerFactory("personelOtamasyonP
             }
         });
         jToolBar1.add(jButton1);
+
+        jButton4.setBackground(new java.awt.Color(255, 204, 204));
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/32x32/billiard_marker.png"))); // NOI18N
+        jButton4.setText("Görevlendirme Ekranı");
+        jButton4.setFocusable(false);
+        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton4);
 
         getContentPane().add(jToolBar1, java.awt.BorderLayout.PAGE_START);
 
@@ -1033,6 +1048,12 @@ ekran.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+ gorevEkran ge=new gorevEkran();
+ ge.setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1088,6 +1109,7 @@ ekran.setVisible(true);
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JDesktopPane jDesktopPane2;
     private javax.swing.JLabel jLabel10;
