@@ -64,7 +64,16 @@ public class AtamaTablo implements Serializable {
     private String atamasekli;
     @Column(name = "memuriyetbaslama")
     private String memuriyetbaslama;
+    @Column(name = "lojmanYararlanmaSure")
+    private Integer lojmanYararlanmaSure;
 
+    public Integer getLojmanYararlanmaSure() {
+        return lojmanYararlanmaSure;
+    }
+
+    public void setLojmanYararlanmaSure(Integer lojmanYararlanmaSure) {
+        this.lojmanYararlanmaSure = lojmanYararlanmaSure;
+    }
     public AtamaTablo() {
     }
 
