@@ -5,6 +5,7 @@
  */
 package view;
 
+import com.itextpdf.text.DocumentException;
 import controller.javaConnect;
 import entities.AtamaTablo;
 import entities.GirisTablo;
@@ -12,11 +13,15 @@ import entities.Izindurum;
 import entities.KimlikTablo;
 import entities.Malihaklar;
 import java.awt.event.KeyEvent;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
@@ -25,6 +30,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import model.PopupActionListener;
+import model.jasperReportYap;
+import model.pdfYap;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -41,6 +49,12 @@ EntityManager em=null;
 int sicil=0;   
 public disiplinYonetimi() {
         initComponents();
+        jTextArea1.setComponentPopupMenu(popupMenu);
+        
+        PopupActionListener pal=new PopupActionListener(popupMenu);
+kesMenu.addActionListener(pal);
+yapistirMenu.addActionListener(pal);
+kopyalaMenu.addActionListener(pal);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         conn=javaConnect.ConnectDb();
@@ -63,6 +77,10 @@ emf=javax.persistence.Persistence.createEntityManagerFactory("personelOtamasyonP
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        popupMenu = new javax.swing.JPopupMenu();
+        kesMenu = new javax.swing.JMenuItem();
+        kopyalaMenu = new javax.swing.JMenuItem();
+        yapistirMenu = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jDesktopPane2 = new javax.swing.JDesktopPane();
@@ -101,6 +119,19 @@ emf=javax.persistence.Persistence.createEntityManagerFactory("personelOtamasyonP
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
+        jButton12 = new javax.swing.JButton();
+
+        kesMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/16x16/cut.png"))); // NOI18N
+        kesMenu.setText("kes");
+        popupMenu.add(kesMenu);
+
+        kopyalaMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/16x16/copying_and_distribution.png"))); // NOI18N
+        kopyalaMenu.setText("kopyala");
+        popupMenu.add(kopyalaMenu);
+
+        yapistirMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/16x16/paste_plain.png"))); // NOI18N
+        yapistirMenu.setText("yapıştır");
+        popupMenu.add(yapistirMenu);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -335,8 +366,7 @@ emf=javax.persistence.Persistence.createEntityManagerFactory("personelOtamasyonP
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(jButton1, gridBagConstraints);
 
@@ -379,7 +409,7 @@ emf=javax.persistence.Persistence.createEntityManagerFactory("personelOtamasyonP
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 4;
-        gridBagConstraints.gridheight = 6;
+        gridBagConstraints.gridheight = 9;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         jPanel2.add(jScrollPane1, gridBagConstraints);
 
@@ -432,8 +462,22 @@ emf=javax.persistence.Persistence.createEntityManagerFactory("personelOtamasyonP
         gridBagConstraints.gridy = 0;
         jPanel2.add(jLabel13, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         jPanel2.add(jLabel14, gridBagConstraints);
+
+        jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/32x32/page_white_acrobat.png"))); // NOI18N
+        jButton12.setText("PDF Aktar");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        jPanel2.add(jButton12, gridBagConstraints);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
@@ -545,6 +589,20 @@ finally{
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        try {
+            pdfYap.pdfYapp(jTable1, "disiplin.pdf");
+            
+            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+"disiplin.pdf");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(yoneticiEkrani.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DocumentException ex) {
+            Logger.getLogger(yoneticiEkrani.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+        Logger.getLogger(disiplinYonetimi.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    }//GEN-LAST:event_jButton12ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -634,6 +692,7 @@ javaConnect.sicil=sicil;
     private javax.swing.JLabel imajLabel;
     private javax.swing.JTextField isim_TF;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
@@ -661,6 +720,10 @@ javaConnect.sicil=sicil;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JMenuItem kesMenu;
+    private javax.swing.JMenuItem kopyalaMenu;
+    private javax.swing.JPopupMenu popupMenu;
     private javax.swing.JTextField telefon_TF;
+    private javax.swing.JMenuItem yapistirMenu;
     // End of variables declaration//GEN-END:variables
 }

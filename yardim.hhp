@@ -1,0 +1,11 @@
+[OPTIONS]
+Compatibility=1.1 or later
+Compiled file=yardim.chm
+Contents file=help.hhc
+Display compile progress=No
+Index file=Index.hhk
+Language=0x41f Türkçe (Türkiye)
+
+
+[INFOTYPES]
+

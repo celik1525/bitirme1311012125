@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import model.PopupActionListener;
 
 /**
  *
@@ -24,7 +25,13 @@ public class girisEkran extends javax.swing.JFrame {
         initComponents();
         conn=javaConnect.ConnectDb();
      setLocationRelativeTo(null);// ekranın tam ortasından başlatır
- 
+ PopupActionListener pal=new PopupActionListener(popupMenu);
+
+ kesMenu.addActionListener(pal);
+yapistirMenu.addActionListener(pal);
+kopyalaMenu.addActionListener(pal);
+jTextField1.setComponentPopupMenu(popupMenu);
+jPasswordField1.setComponentPopupMenu(popupMenu);
     }
 
     /**
@@ -36,6 +43,10 @@ public class girisEkran extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        popupMenu = new javax.swing.JPopupMenu();
+        kesMenu = new javax.swing.JMenuItem();
+        kopyalaMenu = new javax.swing.JMenuItem();
+        yapistirMenu = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jComboBox1 = new javax.swing.JComboBox();
         jButton1 = new javax.swing.JButton();
@@ -45,6 +56,18 @@ public class girisEkran extends javax.swing.JFrame {
         jPasswordField1 = new javax.swing.JPasswordField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+
+        kesMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/16x16/cut.png"))); // NOI18N
+        kesMenu.setText("kes");
+        popupMenu.add(kesMenu);
+
+        kopyalaMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/16x16/copying_and_distribution.png"))); // NOI18N
+        kopyalaMenu.setText("kopyala");
+        popupMenu.add(kopyalaMenu);
+
+        yapistirMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/16x16/paste_plain.png"))); // NOI18N
+        yapistirMenu.setText("yapıştır");
+        popupMenu.add(yapistirMenu);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -96,15 +119,15 @@ public class girisEkran extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
-                .addContainerGap())
+                .addGap(18, 18, 18))
         );
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(90, 60, 266, 161);
+        jPanel1.setBounds(90, 60, 266, 180);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/alo177-2.png"))); // NOI18N
         getContentPane().add(jLabel3);
@@ -112,7 +135,7 @@ public class girisEkran extends javax.swing.JFrame {
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/resimler/20121011142519-24882353-th.jpg"))); // NOI18N
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(0, 0, 370, 280);
+        jLabel4.setBounds(0, 0, 380, 280);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -150,7 +173,7 @@ private void kullanici(){
     if (k==1){
       new  kullaniciEkrani().setVisible(true);
       dispose();
-    }
+    }else JOptionPane.showMessageDialog(null, "hata");
 }
 private void yonetici(){
     String yetki = null;
@@ -235,5 +258,9 @@ private void yonetici(){
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JMenuItem kesMenu;
+    private javax.swing.JMenuItem kopyalaMenu;
+    private javax.swing.JPopupMenu popupMenu;
+    private javax.swing.JMenuItem yapistirMenu;
     // End of variables declaration//GEN-END:variables
 }

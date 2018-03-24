@@ -5,14 +5,18 @@
  */
 package view;
 
+import com.itextpdf.text.DocumentException;
 import controller.javaConnect;
 import entities.AtamaTablo;
 import entities.KimlikTablo;
 import entities.Malihaklar;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,6 +25,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.DefaultListModel;
@@ -32,6 +40,12 @@ import javax.swing.RowSorter;
 import javax.swing.SortOrder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import model.ekseleYaz;
+import model.pdfYap;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -154,6 +168,8 @@ jList1.setModel(model1);
         jButton4 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -184,13 +200,15 @@ jList1.setModel(model1);
 
         jScrollPane2.setViewportView(jList2);
 
-        jButton3.setText("Rapor Al");
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/32x32/table.png"))); // NOI18N
+        jButton3.setText("Tablo Oluştur");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/32x32/printer.png"))); // NOI18N
         jButton4.setText("yazdır");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -202,6 +220,22 @@ jList1.setModel(model1);
 
         jLabel3.setText("Seçim Listesi");
 
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/32x32/export_excel.png"))); // NOI18N
+        jButton5.setText("Excele Gönder");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/32x32/page_white_acrobat.png"))); // NOI18N
+        jButton12.setText("PDF Aktar");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -209,13 +243,14 @@ jList1.setModel(model1);
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jButton2)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(24, 24, 24)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -229,24 +264,27 @@ jList1.setModel(model1);
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(71, 71, 71)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
-                .addGap(13, 13, 13)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                .addGap(49, 49, 49))
-            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
+                .addGap(21, 21, 21)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(1, 1, 1)
+                        .addComponent(jButton12))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2)))
                 .addGap(11, 11, 11))
         );
 
@@ -509,6 +547,82 @@ String[] sic=k.split("-");
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
+public String hucreAl(int x, int y){
+    return tabloModel.getValueAt(x, y).toString();
+}
+ 
+public void ekseleYaz(){
+//      System.out.println(hucreAl(0, 0));
+        XSSFWorkbook wb=new XSSFWorkbook();
+        XSSFSheet ws=wb.createSheet();
+       TreeMap<String,Object[]> data=new TreeMap<>();
+       int k=tabloModel.getColumnCount();
+       int t=tabloModel.getRowCount();
+       Object[] nesne=new Object[k];
+       for (int i=0;i<k;i++){
+       nesne[i]=tabloModel.getColumnName(i);
+       
+       }
+     //data.put("0",(Object[]) (Object) p(k));
+      // data.put("0",new Object[]{nesne[0], nesne [1], nesne [2], nesne [3], nesne [4]}); 
+       data.put("0",new Object[]{tabloModel.getColumnName(0),
+           tabloModel.getColumnName(1),tabloModel.getColumnName(2),tabloModel.getColumnName(3),
+       tabloModel.getColumnName(4),tabloModel.getColumnName(5),tabloModel.getColumnName(6),
+       tabloModel.getColumnName(7),tabloModel.getColumnName(8),tabloModel.getColumnName(9),
+       tabloModel.getColumnName(10),tabloModel.getColumnName(11)
+       });
+     for (int i=0;i<t;i++)   {
+     data.put(String.valueOf(i+1),new Object[]{hucreAl(i,0),hucreAl(i,1),hucreAl(i, 2),hucreAl(i, 3),
+     hucreAl(i,4),hucreAl(i,5),hucreAl(i, 6),hucreAl(i, 7),hucreAl(i,8),hucreAl(i,9),
+     hucreAl(i, 10),hucreAl(i, 11)
+     
+     });
+     }  
+        
+        Set<String> ids=data.keySet();
+        XSSFRow row;
+        int rowID=0;
+        for(String key:ids){
+            row=ws.createRow(rowID++);
+            Object [] values=data.get(key);
+            int cellID=0;
+            for (Object o:values){
+                Cell hucre=row.createCell(cellID++);
+                hucre.setCellValue(o.toString());
+            }
+        }try{
+            try (FileOutputStream fos = new FileOutputStream(new File("lojmallist.xlsx"))) {
+                wb.write(fos);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(lojmanEkran.class.getName()).log(Level.SEVERE, null, ex);
+        }
+}
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        try {
+            ekseleYaz.writeToExcel(jTable1, "lojmanListesi.xlsx");
+
+            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+"LojmanListesi.xlsx");
+            // TODO add your handling code here:
+        } catch (IOException ex) {
+            Logger.getLogger(lojmanEkran.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        try {
+            pdfYap.pdfYapp(jTable1, "lojman.pdf");
+            
+            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+"lojman.pdf");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(yoneticiEkrani.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DocumentException ex) {
+            Logger.getLogger(yoneticiEkrani.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(lojmanEkran.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton12ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -547,9 +661,11 @@ String[] sic=k.split("-");
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -559,7 +675,6 @@ String[] sic=k.split("-");
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;

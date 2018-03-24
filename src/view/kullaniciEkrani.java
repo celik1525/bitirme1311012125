@@ -28,6 +28,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import model.PopupActionListener;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -50,7 +51,11 @@ EntityManagerFactory emf=null;
    String email_Pattern="^[a-zA-Z0-9]{1-20}@[a-zA-Z]{2-3}$";
 public kullaniciEkrani() {
         initComponents();
-emf=javax.persistence.Persistence.createEntityManagerFactory("personelOtamasyonPU");
+PopupActionListener pal=new PopupActionListener(popupMenu);
+kesMenu.addActionListener(pal);
+yapistirMenu.addActionListener(pal);
+kopyalaMenu.addActionListener(pal);
+        emf=javax.persistence.Persistence.createEntityManagerFactory("personelOtamasyonPU");
 em=emf.createEntityManager();
  sicil=javaConnect.sicil;
 kt=new KimlikTablo();
@@ -71,6 +76,9 @@ setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
      doldurYakinAile();
      doldurMalBildirim();
      doldurGorev();
+     doldurSeminer();
+     doldurDisiplin();
+     doldurOdul();
 }
 public void doldurKimlik(){
     try{
@@ -200,6 +208,48 @@ public void malTablodoldur(){
         }catch(Exception e){}
     }
 }
+public void doldurSeminer(){
+    String sql="select * from seminerTablo where sicil=?";
+    try{ ps=conn.prepareStatement(sql);
+    ps.setInt(1, sicil);
+    rs=ps.executeQuery();
+    jTable6.setModel(DbUtils.resultSetToTableModel(rs));
+    }catch(Exception e){}
+    finally{
+        try{
+            rs.close();
+            ps.close();
+        }catch(Exception e){}
+    }
+}
+public void doldurOdul(){
+    String sql="select * from odulTablo  where sicil=?";
+    try{ ps=conn.prepareStatement(sql);
+    ps.setInt(1, sicil);
+    rs=ps.executeQuery();
+    jTable5.setModel(DbUtils.resultSetToTableModel(rs));
+    }catch(Exception e){}
+    finally{
+        try{
+            rs.close();
+            ps.close();
+        }catch(Exception e){}
+    }
+}
+public void doldurDisiplin(){
+    String sql="select * from disiplinTablo where sicil=?";
+    try{ ps=conn.prepareStatement(sql);
+    ps.setInt(1, sicil);
+    rs=ps.executeQuery();
+    jTable7.setModel(DbUtils.resultSetToTableModel(rs));
+    }catch(Exception e){}
+    finally{
+        try{
+            rs.close();
+            ps.close();
+        }catch(Exception e){}
+    }
+}
 public void doldurGorev(){
     String sql="select * from job where sicil=?";
     try{ ps=conn.prepareStatement(sql);
@@ -229,6 +279,10 @@ public void doldurGorev(){
         yakinaileList2 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : yakinaileQuery2.getResultList();
         yakinTabloQuery = java.beans.Beans.isDesignTime() ? null : personelOtamasyonPUEntityManager.createQuery("SELECT y FROM YakinTablo y");
         yakinTabloList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : yakinTabloQuery.getResultList();
+        popupMenu = new javax.swing.JPopupMenu();
+        kesMenu = new javax.swing.JMenuItem();
+        kopyalaMenu = new javax.swing.JMenuItem();
+        yapistirMenu = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -389,7 +443,51 @@ public void doldurGorev(){
         jTextField60 = new javax.swing.JTextField();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTable4 = new javax.swing.JTable();
+        jPanel12 = new javax.swing.JPanel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        jTable7 = new javax.swing.JTable();
+        jLabel73 = new javax.swing.JLabel();
+        jTextField68 = new javax.swing.JTextField();
+        jTextField69 = new javax.swing.JTextField();
+        jLabel74 = new javax.swing.JLabel();
+        jLabel75 = new javax.swing.JLabel();
+        jTextField70 = new javax.swing.JTextField();
+        jLabel76 = new javax.swing.JLabel();
+        jTextField71 = new javax.swing.JTextField();
+        jPanel13 = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jTable6 = new javax.swing.JTable();
+        jLabel69 = new javax.swing.JLabel();
+        jTextField64 = new javax.swing.JTextField();
+        jTextField65 = new javax.swing.JTextField();
+        jLabel70 = new javax.swing.JLabel();
+        jLabel71 = new javax.swing.JLabel();
+        jTextField66 = new javax.swing.JTextField();
+        jLabel72 = new javax.swing.JLabel();
+        jTextField67 = new javax.swing.JTextField();
         jPanel11 = new javax.swing.JPanel();
+        jLabel27 = new javax.swing.JLabel();
+        jLabel66 = new javax.swing.JLabel();
+        jLabel67 = new javax.swing.JLabel();
+        jLabel68 = new javax.swing.JLabel();
+        jTextField25 = new javax.swing.JTextField();
+        jTextField61 = new javax.swing.JTextField();
+        jTextField62 = new javax.swing.JTextField();
+        jTextField63 = new javax.swing.JTextField();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTable5 = new javax.swing.JTable();
+
+        kesMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/16x16/cut.png"))); // NOI18N
+        kesMenu.setText("kes");
+        popupMenu.add(kesMenu);
+
+        kopyalaMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/16x16/copying_and_distribution.png"))); // NOI18N
+        kopyalaMenu.setText("kopyala");
+        popupMenu.add(kopyalaMenu);
+
+        yapistirMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/16x16/paste_plain.png"))); // NOI18N
+        yapistirMenu.setText("yapıştır");
+        popupMenu.add(yapistirMenu);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 255, 204));
@@ -1030,18 +1128,21 @@ public void doldurGorev(){
         jPanel8.add(jTextField44, gridBagConstraints);
 
         jTextField46.setColumns(20);
+        jTextField46.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         jPanel8.add(jTextField46, gridBagConstraints);
 
         jTextField50.setColumns(20);
+        jTextField50.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
         jPanel8.add(jTextField50, gridBagConstraints);
 
         jTextField51.setColumns(11);
+        jTextField51.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -1563,18 +1664,253 @@ public void doldurGorev(){
 
         kimlikPanel.addTab("Görevlendirme", jPanel10);
 
-        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
-        jPanel11.setLayout(jPanel11Layout);
-        jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 678, Short.MAX_VALUE)
-        );
-        jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 370, Short.MAX_VALUE)
-        );
+        jPanel12.setLayout(new java.awt.GridBagLayout());
 
-        kimlikPanel.addTab("tab9", jPanel11);
+        jTable7.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTable7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable7MouseClicked(evt);
+            }
+        });
+        jTable7.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTable7KeyReleased(evt);
+            }
+        });
+        jScrollPane8.setViewportView(jTable7);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridheight = 5;
+        jPanel12.add(jScrollPane8, gridBagConstraints);
+
+        jLabel73.setText("Sıra");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        jPanel12.add(jLabel73, gridBagConstraints);
+
+        jTextField68.setEditable(false);
+        jTextField68.setColumns(20);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        jPanel12.add(jTextField68, gridBagConstraints);
+
+        jTextField69.setEditable(false);
+        jTextField69.setColumns(20);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        jPanel12.add(jTextField69, gridBagConstraints);
+
+        jLabel74.setText("Tarih");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        jPanel12.add(jLabel74, gridBagConstraints);
+
+        jLabel75.setText("Nedeni");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        jPanel12.add(jLabel75, gridBagConstraints);
+
+        jTextField70.setEditable(false);
+        jTextField70.setColumns(20);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        jPanel12.add(jTextField70, gridBagConstraints);
+
+        jLabel76.setText("Aldığı Ceza");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        jPanel12.add(jLabel76, gridBagConstraints);
+
+        jTextField71.setEditable(false);
+        jTextField71.setColumns(20);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        jPanel12.add(jTextField71, gridBagConstraints);
+
+        kimlikPanel.addTab("Disiplin", jPanel12);
+
+        jPanel13.setLayout(new java.awt.GridBagLayout());
+
+        jTable6.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTable6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable6MouseClicked(evt);
+            }
+        });
+        jTable6.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTable6KeyReleased(evt);
+            }
+        });
+        jScrollPane7.setViewportView(jTable6);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 6;
+        gridBagConstraints.gridheight = 7;
+        jPanel13.add(jScrollPane7, gridBagConstraints);
+
+        jLabel69.setText("Sıra");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        jPanel13.add(jLabel69, gridBagConstraints);
+
+        jTextField64.setEditable(false);
+        jTextField64.setColumns(20);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        jPanel13.add(jTextField64, gridBagConstraints);
+
+        jTextField65.setEditable(false);
+        jTextField65.setColumns(20);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        jPanel13.add(jTextField65, gridBagConstraints);
+
+        jLabel70.setText("Tarih");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        jPanel13.add(jLabel70, gridBagConstraints);
+
+        jLabel71.setText("Konusu");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        jPanel13.add(jLabel71, gridBagConstraints);
+
+        jTextField66.setEditable(false);
+        jTextField66.setColumns(20);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        jPanel13.add(jTextField66, gridBagConstraints);
+
+        jLabel72.setText("Süre");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        jPanel13.add(jLabel72, gridBagConstraints);
+
+        jTextField67.setEditable(false);
+        jTextField67.setColumns(20);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        jPanel13.add(jTextField67, gridBagConstraints);
+
+        kimlikPanel.addTab("Hizmetiçi Eğitim", jPanel13);
+
+        jPanel11.setLayout(new java.awt.GridBagLayout());
+
+        jLabel27.setText("Sıra");
+        jPanel11.add(jLabel27, new java.awt.GridBagConstraints());
+
+        jLabel66.setText("Tarih");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        jPanel11.add(jLabel66, gridBagConstraints);
+
+        jLabel67.setText("Nedeni");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        jPanel11.add(jLabel67, gridBagConstraints);
+
+        jLabel68.setText("Değer");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        jPanel11.add(jLabel68, gridBagConstraints);
+
+        jTextField25.setEditable(false);
+        jTextField25.setColumns(20);
+        jPanel11.add(jTextField25, new java.awt.GridBagConstraints());
+
+        jTextField61.setEditable(false);
+        jTextField61.setColumns(20);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        jPanel11.add(jTextField61, gridBagConstraints);
+
+        jTextField62.setEditable(false);
+        jTextField62.setColumns(20);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        jPanel11.add(jTextField62, gridBagConstraints);
+
+        jTextField63.setEditable(false);
+        jTextField63.setColumns(20);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        jPanel11.add(jTextField63, gridBagConstraints);
+
+        jScrollPane6.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jScrollPane6KeyReleased(evt);
+            }
+        });
+
+        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTable5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable5MouseClicked(evt);
+            }
+        });
+        jScrollPane6.setViewportView(jTable5);
+
+        jPanel11.add(jScrollPane6, new java.awt.GridBagConstraints());
+
+        kimlikPanel.addTab("Ödül Bilgileri", jPanel11);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -1907,6 +2243,53 @@ jTextField41.setText(gt.getSifre());
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField47KeyTyped
+
+    private void jTable7KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable7KeyReleased
+  if(evt.getKeyCode()==KeyEvent.VK_UP||evt.getKeyCode()==KeyEvent.VK_DOWN){
+int row=jTable7.getSelectedRow();
+ int tableClick=Integer.parseInt((jTable7.getModel().getValueAt(row, 0)));
+        tabloGez7(tableClick);}        
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable7KeyReleased
+
+    private void jTable7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable7MouseClicked
+ 
+int row=jTable7.getSelectedRow();
+ int tableClick=Integer.parseInt((jTable7.getModel().getValueAt(row, 0)));
+        tabloGez7(tableClick);       
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable7MouseClicked
+
+    private void jTable6KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable6KeyReleased
+ if(evt.getKeyCode()==KeyEvent.VK_UP||evt.getKeyCode()==KeyEvent.VK_DOWN){
+int row=jTable6.getSelectedRow();
+ String tableClick=Integer.parseInt((jTable6.getModel().getValueAt(row, 0)));
+        tabloGez6(tableClick);} 
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable6KeyReleased
+
+    private void jTable6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable6MouseClicked
+ int row=jTable6.getSelectedRow();
+ String tableClick=Integer.parseInt((jTable6.getModel().getValueAt(row, 0)));
+        tabloGez6(tableClick);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable6MouseClicked
+
+    private void jScrollPane6KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jScrollPane6KeyReleased
+ if(evt.getKeyCode()==KeyEvent.VK_UP||evt.getKeyCode()==KeyEvent.VK_DOWN){
+int row=jTable5.getSelectedRow();
+ int tableClick=Integer.parseInt((jTable5.getModel().getValueAt(row, 0)));
+        tabloGez5(tableClick);} 
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jScrollPane6KeyReleased
+
+    private void jTable5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable5MouseClicked
+ int row=jTable5.getSelectedRow();
+ int tableClick=Integer.parseInt((jTable5.getModel().getValueAt(row, 0)));
+        tabloGez5(tableClick);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable5MouseClicked
 public void tabloGez2(String num){
     try{
         String sql="select * from yakinTablo where id=?";
@@ -1920,6 +2303,27 @@ jTextField46.setText(rs.getString(2));
 jTextField50.setText(rs.getString(3));
 jTextField51.setText(rs.getString(4));
 jDateChooser2.setDate(rs.getDate(5));
+}}catch(Exception e){}
+    finally{
+        try{
+            rs.close();
+            ps.close();
+        }catch(Exception e){}
+    }
+} 
+public void tabloGez6(String num){
+    try{
+        String sql="select * from seminerTablo where id=?";
+    ps=conn.prepareStatement(sql);
+    ps.setString(1, num);
+rs=ps.executeQuery();
+if(rs.next()){
+
+jTextField64.setText(rs.getString(1));
+jTextField65.setText(rs.getString(3));
+jTextField66.setText(rs.getString(4));
+jTextField67.setText(rs.getString(5));
+
 }}catch(Exception e){}
     finally{
         try{
@@ -1950,6 +2354,46 @@ jTextField57.setText(rs.getString(5));
 jTextField58.setText(rs.getString(6));
 jTextField59.setText(rs.getString(7));
 jTextField60.setText(rs.getString(8));
+}
+        }catch(Exception e){}
+    finally{
+        try{
+            rs.close();
+            ps.close();
+        }catch(Exception e){}
+    }
+}
+public void tabloGez5(int num){
+        try{
+        String sql="select * from odulTablo where id=?";
+    ps=conn.prepareStatement(sql);
+    ps.setInt(1, num);
+rs=ps.executeQuery();
+if(rs.next()){
+jTextField25.setText(rs.getString(1));
+jTextField61.setText(rs.getString(5));
+jTextField62.setText(rs.getString(4));
+jTextField63.setText(rs.getString(3));
+}
+        }catch(Exception e){}
+    finally{
+        try{
+            rs.close();
+            ps.close();
+        }catch(Exception e){}
+    }
+}
+public void tabloGez7(int num){
+        try{
+        String sql="select * from disiplinTablo where id=?";
+    ps=conn.prepareStatement(sql);
+    ps.setInt(1, num);
+rs=ps.executeQuery();
+if(rs.next()){
+jTextField68.setText(rs.getString(1));
+jTextField69.setText(rs.getString(5));
+jTextField70.setText(rs.getString(4));
+jTextField71.setText(rs.getString(3));
 }
         }catch(Exception e){}
     finally{
@@ -2036,6 +2480,7 @@ private boolean kimlik_format(){
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
@@ -2078,12 +2523,25 @@ private boolean kimlik_format(){
     private javax.swing.JLabel jLabel63;
     private javax.swing.JLabel jLabel64;
     private javax.swing.JLabel jLabel65;
+    private javax.swing.JLabel jLabel66;
+    private javax.swing.JLabel jLabel67;
+    private javax.swing.JLabel jLabel68;
+    private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel70;
+    private javax.swing.JLabel jLabel71;
+    private javax.swing.JLabel jLabel72;
+    private javax.swing.JLabel jLabel73;
+    private javax.swing.JLabel jLabel74;
+    private javax.swing.JLabel jLabel75;
+    private javax.swing.JLabel jLabel76;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -2097,10 +2555,16 @@ private boolean kimlik_format(){
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
+    private javax.swing.JTable jTable5;
+    private javax.swing.JTable jTable6;
+    private javax.swing.JTable jTable7;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
@@ -2119,6 +2583,7 @@ private boolean kimlik_format(){
     private javax.swing.JTextField jTextField22;
     private javax.swing.JTextField jTextField23;
     private javax.swing.JTextField jTextField24;
+    private javax.swing.JTextField jTextField25;
     private javax.swing.JTextField jTextField26;
     private javax.swing.JTextField jTextField27;
     private javax.swing.JTextField jTextField28;
@@ -2158,11 +2623,25 @@ private boolean kimlik_format(){
     private javax.swing.JTextField jTextField59;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField60;
+    private javax.swing.JTextField jTextField61;
+    private javax.swing.JTextField jTextField62;
+    private javax.swing.JTextField jTextField63;
+    private javax.swing.JTextField jTextField64;
+    private javax.swing.JTextField jTextField65;
+    private javax.swing.JTextField jTextField66;
+    private javax.swing.JTextField jTextField67;
+    private javax.swing.JTextField jTextField68;
+    private javax.swing.JTextField jTextField69;
     private javax.swing.JTextField jTextField7;
+    private javax.swing.JTextField jTextField70;
+    private javax.swing.JTextField jTextField71;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JMenuItem kesMenu;
     private javax.swing.JTabbedPane kimlikPanel;
+    private javax.swing.JMenuItem kopyalaMenu;
     private javax.persistence.EntityManager personelOtamasyonPUEntityManager;
+    private javax.swing.JPopupMenu popupMenu;
     private java.util.List<entities.YakinTablo> yakinTabloList;
     private javax.persistence.Query yakinTabloQuery;
     private java.util.List<entities.Yakinaile> yakinaileList;
@@ -2171,5 +2650,6 @@ private boolean kimlik_format(){
     private javax.persistence.Query yakinaileQuery;
     private javax.persistence.Query yakinaileQuery1;
     private javax.persistence.Query yakinaileQuery2;
+    private javax.swing.JMenuItem yapistirMenu;
     // End of variables declaration//GEN-END:variables
 }

@@ -42,8 +42,10 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import model.PopupActionListener;
 
 /**
  *
@@ -71,6 +73,10 @@ public class eklemeSihirbazı extends javax.swing.JFrame {
    String email_Pattern="^[a-zA-Z0-9]{1-20}@[a-zA-Z]{2-3}$";
     public eklemeSihirbazı() {
         initComponents();
+        PopupActionListener pal=new PopupActionListener(popupMenu);
+kesMenu.addActionListener(pal);
+yapistirMenu.addActionListener(pal);
+kopyalaMenu.addActionListener(pal);
         at=new AtamaTablo();
         kt=new KimlikTablo();
        
@@ -81,7 +87,7 @@ public class eklemeSihirbazı extends javax.swing.JFrame {
 em=emf.createEntityManager();
 conn=javaConnect.ConnectDb();
 FillCombo();
-
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -93,6 +99,10 @@ FillCombo();
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        popupMenu = new javax.swing.JPopupMenu();
+        kesMenu = new javax.swing.JMenuItem();
+        kopyalaMenu = new javax.swing.JMenuItem();
+        yapistirMenu = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
@@ -204,6 +214,18 @@ FillCombo();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
+
+        kesMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/16x16/cut.png"))); // NOI18N
+        kesMenu.setText("kes");
+        popupMenu.add(kesMenu);
+
+        kopyalaMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/16x16/copying_and_distribution.png"))); // NOI18N
+        kopyalaMenu.setText("kopyala");
+        popupMenu.add(kopyalaMenu);
+
+        yapistirMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/16x16/paste_plain.png"))); // NOI18N
+        yapistirMenu.setText("yapıştır");
+        popupMenu.add(yapistirMenu);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -332,14 +354,17 @@ FillCombo();
         jLabel13.setText("Birim");
 
         SirnameTF.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        SirnameTF.setComponentPopupMenu(popupMenu);
 
         jLabel8.setText("Sicil");
 
         nameTF.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        nameTF.setComponentPopupMenu(popupMenu);
 
         UnvanCombo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         sicilTF.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        sicilTF.setComponentPopupMenu(popupMenu);
         sicilTF.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 sicilTFKeyTyped(evt);
@@ -484,6 +509,7 @@ FillCombo();
 
         adresarea.setColumns(20);
         adresarea.setRows(5);
+        adresarea.setComponentPopupMenu(popupMenu);
         jScrollPane1.setViewportView(adresarea);
 
         jLabel16.setText("Doğum Yeri");
@@ -495,6 +521,7 @@ FillCombo();
         jLabel18.setText("Telefon");
 
         kimlikTXT.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        kimlikTXT.setComponentPopupMenu(popupMenu);
         kimlikTXT.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 kimlikTXTKeyTyped(evt);
@@ -506,6 +533,10 @@ FillCombo();
         jLabel19.setText("Tc Kimlik");
 
         jDateChooser2.setDateFormatString("dd.MM.yyyy");
+
+        dogumyeritxt.setComponentPopupMenu(popupMenu);
+
+        telefonTXT.setComponentPopupMenu(popupMenu);
 
         jLabel20.setText("Medeni Hal");
 
@@ -607,18 +638,21 @@ FillCombo();
 
         jLabel31.setText("Kalan Yıllık İzin");
 
+        jTextField15.setComponentPopupMenu(popupMenu);
         jTextField15.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField15KeyTyped(evt);
             }
         });
 
+        devirizin.setComponentPopupMenu(popupMenu);
         devirizin.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 devirizinKeyTyped(evt);
             }
         });
 
+        jTextField16.setComponentPopupMenu(popupMenu);
         jTextField16.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField16KeyTyped(evt);
@@ -634,6 +668,7 @@ FillCombo();
             }
         });
 
+        jTextField5.setComponentPopupMenu(popupMenu);
         jTextField5.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField5KeyTyped(evt);
@@ -643,6 +678,7 @@ FillCombo();
         jLabel35.setText("Özürsüz işe gelmeme");
 
         jTextField6.setText("0");
+        jTextField6.setComponentPopupMenu(popupMenu);
 
         jLabel34.setText("Yol İzni Kullandı");
 
@@ -741,12 +777,14 @@ FillCombo();
 
         jComboBox9.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Yok", "toçbirsen", "türk tarım orman sen" }));
 
+        kademeTXT.setComponentPopupMenu(popupMenu);
         kademeTXT.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 kademeTXTKeyTyped(evt);
             }
         });
 
+        EKGosTXT.setComponentPopupMenu(popupMenu);
         EKGosTXT.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 EKGosTXTKeyTyped(evt);
@@ -755,6 +793,7 @@ FillCombo();
 
         jLabel24.setText("Sendika");
 
+        gostergeTXT.setComponentPopupMenu(popupMenu);
         gostergeTXT.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 gostergeTXTKeyTyped(evt);
@@ -765,6 +804,7 @@ FillCombo();
 
         jLabel49.setText("Gösterge");
 
+        cocTxt.setComponentPopupMenu(popupMenu);
         cocTxt.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 cocTxtKeyTyped(evt);
@@ -775,6 +815,7 @@ FillCombo();
 
         jComboBox7.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Yok", "A", "B", "C", "D", "E" }));
 
+        dereceTXT.setComponentPopupMenu(popupMenu);
         dereceTXT.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 dereceTXTKeyTyped(evt);
@@ -786,6 +827,8 @@ FillCombo();
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "İlkokul", "Ortaokul", "Lise ve Dengi", "Önlisans", "Lisans", "Yüksek Lisans" }));
 
         jLabel10.setText("Bölüm");
+
+        jTextField19.setComponentPopupMenu(popupMenu);
 
         jButton8.setText("KAYDET");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
@@ -951,11 +994,14 @@ FillCombo();
 
         jLabel25.setText("Şifre");
 
+        yolTF.setComponentPopupMenu(popupMenu);
+
         jLabel26.setText("Yetki Derecesi");
 
         jComboBox10.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Kullanıcı", "Yönetici" }));
 
         jPasswordField1.setText("ogm123");
+        jPasswordField1.setComponentPopupMenu(popupMenu);
 
         jButton3.setText("Resim ÇEK");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -974,6 +1020,8 @@ FillCombo();
         });
 
         jLabel46.setText("Kullanıcı Adı");
+
+        jTextField17.setComponentPopupMenu(popupMenu);
 
         javax.swing.GroupLayout GirisBilgileriPanoLayout = new javax.swing.GroupLayout(GirisBilgileriPano);
         GirisBilgileriPano.setLayout(GirisBilgileriPanoLayout);
@@ -1036,7 +1084,7 @@ FillCombo();
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(yolTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1703,15 +1751,19 @@ private static BufferedImage resizeImage(BufferedImage originalImage, int type) 
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField kademeTXT;
+    private javax.swing.JMenuItem kesMenu;
     private javax.swing.JPanel kimlikBilgileri;
     private javax.swing.JTextField kimlikTXT;
+    private javax.swing.JMenuItem kopyalaMenu;
     private javax.swing.JPanel malHaklarPano;
     private javax.swing.JTextField nameTF;
+    private javax.swing.JPopupMenu popupMenu;
     private javax.swing.JLabel resimLabel;
     private javax.swing.JTextField sicilTF;
     private javax.swing.JProgressBar surec;
     private javax.swing.JTextField telefonTXT;
     private javax.swing.JComboBox yabanciDilCombo;
+    private javax.swing.JMenuItem yapistirMenu;
     private javax.swing.JTextField yolTF;
     // End of variables declaration//GEN-END:variables
 }

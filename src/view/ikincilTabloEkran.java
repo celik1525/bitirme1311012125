@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import model.PopupActionListener;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -28,7 +29,12 @@ String isim;
      */
     public ikincilTabloEkran() {
         initComponents();
-        conn=javaConnect.ConnectDb();
+        PopupActionListener pal=new PopupActionListener(popupMenu);
+kesMenu.addActionListener(pal);
+yapistirMenu.addActionListener(pal);
+kopyalaMenu.addActionListener(pal);
+degerTF.setComponentPopupMenu(popupMenu);
+conn=javaConnect.ConnectDb();
          setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     isim=jComboBox1.getSelectedItem().toString();
     }
@@ -137,6 +143,10 @@ updateTable();
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        popupMenu = new javax.swing.JPopupMenu();
+        kesMenu = new javax.swing.JMenuItem();
+        kopyalaMenu = new javax.swing.JMenuItem();
+        yapistirMenu = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
@@ -150,6 +160,18 @@ updateTable();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+
+        kesMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/16x16/cut.png"))); // NOI18N
+        kesMenu.setText("kes");
+        popupMenu.add(kesMenu);
+
+        kopyalaMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/16x16/copying_and_distribution.png"))); // NOI18N
+        kopyalaMenu.setText("kopyala");
+        popupMenu.add(kopyalaMenu);
+
+        yapistirMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/16x16/paste_plain.png"))); // NOI18N
+        yapistirMenu.setText("yapıştır");
+        popupMenu.add(yapistirMenu);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -354,6 +376,10 @@ TabloGez();        // TODO add your handling code here:
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenuItem kesMenu;
+    private javax.swing.JMenuItem kopyalaMenu;
+    private javax.swing.JPopupMenu popupMenu;
     private javax.swing.JTable tablo;
+    private javax.swing.JMenuItem yapistirMenu;
     // End of variables declaration//GEN-END:variables
 }

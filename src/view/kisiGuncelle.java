@@ -51,6 +51,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import model.PopupActionListener;
 
 /**
  *
@@ -77,7 +78,10 @@ EntityManagerFactory emf=null;
    String k;
    public kisiGuncelle() {
         initComponents();
-     
+     PopupActionListener pal=new PopupActionListener(popupMenu);
+kesMenu.addActionListener(pal);
+yapistirMenu.addActionListener(pal);
+kopyalaMenu.addActionListener(pal);
         emf=javax.persistence.Persistence.createEntityManagerFactory("personelOtamasyonPU");
 em=emf.createEntityManager();
 kt=new KimlikTablo();
@@ -190,6 +194,10 @@ public void doldurGiris(int sicil){
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        popupMenu = new javax.swing.JPopupMenu();
+        kesMenu = new javax.swing.JMenuItem();
+        kopyalaMenu = new javax.swing.JMenuItem();
+        yapistirMenu = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jLabel1 = new javax.swing.JLabel();
@@ -314,6 +322,18 @@ public void doldurGiris(int sicil){
         jTextField36 = new javax.swing.JTextField();
         jButton36 = new javax.swing.JButton();
 
+        kesMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/16x16/cut.png"))); // NOI18N
+        kesMenu.setText("kes");
+        popupMenu.add(kesMenu);
+
+        kopyalaMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/16x16/copying_and_distribution.png"))); // NOI18N
+        kopyalaMenu.setText("kopyala");
+        popupMenu.add(kopyalaMenu);
+
+        yapistirMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/16x16/paste_plain.png"))); // NOI18N
+        yapistirMenu.setText("yapıştır");
+        popupMenu.add(yapistirMenu);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
@@ -355,6 +375,7 @@ public void doldurGiris(int sicil){
         jLabel8.setText("Yetki");
 
         jTextField33.setEditable(false);
+        jTextField33.setComponentPopupMenu(popupMenu);
         jTextField33.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField33ActionPerformed(evt);
@@ -362,8 +383,10 @@ public void doldurGiris(int sicil){
         });
 
         jTextField37.setEditable(false);
+        jTextField37.setComponentPopupMenu(popupMenu);
 
         jTextField38.setEditable(false);
+        jTextField38.setComponentPopupMenu(popupMenu);
         jTextField38.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField38ActionPerformed(evt);
@@ -371,6 +394,7 @@ public void doldurGiris(int sicil){
         });
 
         jTextField39.setEditable(false);
+        jTextField39.setComponentPopupMenu(popupMenu);
 
         jButton27.setText("Değiştir");
         jButton27.addActionListener(new java.awt.event.ActionListener() {
@@ -538,6 +562,7 @@ public void doldurGiris(int sicil){
 
         jTextField1.setEditable(false);
         jTextField1.setColumns(10);
+        jTextField1.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 11;
@@ -545,6 +570,7 @@ public void doldurGiris(int sicil){
 
         jTextField2.setEditable(false);
         jTextField2.setColumns(10);
+        jTextField2.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 9;
@@ -552,6 +578,7 @@ public void doldurGiris(int sicil){
 
         jTextField3.setEditable(false);
         jTextField3.setColumns(10);
+        jTextField3.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -559,6 +586,7 @@ public void doldurGiris(int sicil){
 
         jTextField4.setEditable(false);
         jTextField4.setColumns(10);
+        jTextField4.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -566,6 +594,7 @@ public void doldurGiris(int sicil){
 
         jTextField5.setEditable(false);
         jTextField5.setColumns(10);
+        jTextField5.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -573,6 +602,7 @@ public void doldurGiris(int sicil){
 
         jTextField6.setEditable(false);
         jTextField6.setColumns(10);
+        jTextField6.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
@@ -580,6 +610,7 @@ public void doldurGiris(int sicil){
 
         jTextField7.setEditable(false);
         jTextField7.setColumns(10);
+        jTextField7.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
@@ -587,6 +618,7 @@ public void doldurGiris(int sicil){
 
         jTextField8.setEditable(false);
         jTextField8.setColumns(10);
+        jTextField8.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 7;
@@ -594,6 +626,7 @@ public void doldurGiris(int sicil){
 
         jTextField9.setEditable(false);
         jTextField9.setColumns(10);
+        jTextField9.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 8;
@@ -601,6 +634,7 @@ public void doldurGiris(int sicil){
 
         jTextField10.setEditable(false);
         jTextField10.setColumns(10);
+        jTextField10.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -767,6 +801,7 @@ public void doldurGiris(int sicil){
 
         jTextField11.setEditable(false);
         jTextField11.setColumns(10);
+        jTextField11.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 12;
@@ -774,6 +809,7 @@ public void doldurGiris(int sicil){
 
         jTextField12.setEditable(false);
         jTextField12.setColumns(10);
+        jTextField12.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 13;
@@ -781,6 +817,7 @@ public void doldurGiris(int sicil){
 
         jTextField13.setEditable(false);
         jTextField13.setColumns(10);
+        jTextField13.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 14;
@@ -788,6 +825,7 @@ public void doldurGiris(int sicil){
 
         jTextField14.setEditable(false);
         jTextField14.setColumns(10);
+        jTextField14.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 15;
@@ -795,6 +833,7 @@ public void doldurGiris(int sicil){
 
         jTextField15.setEditable(false);
         jTextField15.setColumns(10);
+        jTextField15.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 16;
@@ -802,6 +841,7 @@ public void doldurGiris(int sicil){
 
         jTextField16.setEditable(false);
         jTextField16.setColumns(10);
+        jTextField16.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 17;
@@ -809,6 +849,7 @@ public void doldurGiris(int sicil){
 
         jTextField17.setEditable(false);
         jTextField17.setColumns(10);
+        jTextField17.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;
@@ -942,6 +983,7 @@ public void doldurGiris(int sicil){
 
         jTextField18.setEditable(false);
         jTextField18.setColumns(10);
+        jTextField18.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 1;
@@ -949,6 +991,7 @@ public void doldurGiris(int sicil){
 
         jTextField19.setEditable(false);
         jTextField19.setColumns(10);
+        jTextField19.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 2;
@@ -956,6 +999,7 @@ public void doldurGiris(int sicil){
 
         jTextField20.setEditable(false);
         jTextField20.setColumns(10);
+        jTextField20.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 3;
@@ -963,6 +1007,7 @@ public void doldurGiris(int sicil){
 
         jTextField21.setEditable(false);
         jTextField21.setColumns(10);
+        jTextField21.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 7;
@@ -970,6 +1015,7 @@ public void doldurGiris(int sicil){
 
         jTextField22.setEditable(false);
         jTextField22.setColumns(10);
+        jTextField22.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -1053,6 +1099,7 @@ public void doldurGiris(int sicil){
 
         jTextField24.setEditable(false);
         jTextField24.setColumns(10);
+        jTextField24.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 14;
@@ -1060,6 +1107,7 @@ public void doldurGiris(int sicil){
 
         jTextField25.setEditable(false);
         jTextField25.setColumns(10);
+        jTextField25.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 13;
@@ -1067,6 +1115,7 @@ public void doldurGiris(int sicil){
 
         jTextField26.setEditable(false);
         jTextField26.setColumns(10);
+        jTextField26.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 12;
@@ -1074,6 +1123,7 @@ public void doldurGiris(int sicil){
 
         jTextField27.setEditable(false);
         jTextField27.setColumns(10);
+        jTextField27.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 11;
@@ -1081,6 +1131,7 @@ public void doldurGiris(int sicil){
 
         jTextField28.setEditable(false);
         jTextField28.setColumns(10);
+        jTextField28.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 10;
@@ -1088,6 +1139,7 @@ public void doldurGiris(int sicil){
 
         jTextField29.setEditable(false);
         jTextField29.setColumns(10);
+        jTextField29.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 9;
@@ -1095,6 +1147,7 @@ public void doldurGiris(int sicil){
 
         jTextField30.setEditable(false);
         jTextField30.setColumns(10);
+        jTextField30.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 8;
@@ -1102,6 +1155,7 @@ public void doldurGiris(int sicil){
 
         jTextField31.setEditable(false);
         jTextField31.setColumns(10);
+        jTextField31.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 5;
@@ -1109,6 +1163,7 @@ public void doldurGiris(int sicil){
 
         jTextField32.setEditable(false);
         jTextField32.setColumns(10);
+        jTextField32.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 18;
@@ -1286,6 +1341,7 @@ public void doldurGiris(int sicil){
 
         jTextField34.setEditable(false);
         jTextField34.setColumns(10);
+        jTextField34.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 17;
@@ -1304,6 +1360,7 @@ public void doldurGiris(int sicil){
 
         jTextField35.setEditable(false);
         jTextField35.setColumns(10);
+        jTextField35.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 15;
@@ -1329,6 +1386,7 @@ public void doldurGiris(int sicil){
 
         jTextField36.setEditable(false);
         jTextField36.setColumns(10);
+        jTextField36.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 4;
@@ -2623,5 +2681,9 @@ JFrame p=new JFrame();
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JMenuItem kesMenu;
+    private javax.swing.JMenuItem kopyalaMenu;
+    private javax.swing.JPopupMenu popupMenu;
+    private javax.swing.JMenuItem yapistirMenu;
     // End of variables declaration//GEN-END:variables
 }

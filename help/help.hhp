@@ -1,0 +1,18 @@
+[OPTIONS]
+Compatibility=1.1 or later
+Compiled file=help.chm
+Contents file=Table of Contents.hhc
+Default Font=@Arial Unicode MS,12,0
+Default topic=hakkinda.html
+Display compile progress=No
+Index file=Index.hhk
+Language=0x41f Türkçe (Türkiye)
+Title=Yardým
+
+
+[FILES]
+hakkinda.html
+hazirlayan.html
+
+[INFOTYPES]
+

@@ -5,6 +5,7 @@
  */
 package view;
 
+import com.itextpdf.text.DocumentException;
 import controller.javaConnect;
 import entities.AtamaTablo;
 import entities.GirisTablo;
@@ -12,11 +13,15 @@ import entities.Izindurum;
 import entities.KimlikTablo;
 import entities.Malihaklar;
 import java.awt.event.KeyEvent;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
@@ -25,6 +30,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import model.PopupActionListener;
+import model.ekseleYaz;
+import model.pdfYap;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -42,7 +50,10 @@ EntityManager em=null;
 int sicil=0;   
 public seminerTablo() {
         initComponents();
-
+PopupActionListener pal=new PopupActionListener(popupMenu);
+kesMenu.addActionListener(pal);
+yapistirMenu.addActionListener(pal);
+kopyalaMenu.addActionListener(pal);
  this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         conn=javaConnect.ConnectDb();
@@ -136,6 +147,10 @@ public void TabloGez(){
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        popupMenu = new javax.swing.JPopupMenu();
+        kesMenu = new javax.swing.JMenuItem();
+        kopyalaMenu = new javax.swing.JMenuItem();
+        yapistirMenu = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jDesktopPane2 = new javax.swing.JDesktopPane();
@@ -175,6 +190,20 @@ public void TabloGez(){
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
+        jButton5 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
+
+        kesMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/16x16/cut.png"))); // NOI18N
+        kesMenu.setText("kes");
+        popupMenu.add(kesMenu);
+
+        kopyalaMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/16x16/copying_and_distribution.png"))); // NOI18N
+        kopyalaMenu.setText("kopyala");
+        popupMenu.add(kopyalaMenu);
+
+        yapistirMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/16x16/paste_plain.png"))); // NOI18N
+        yapistirMenu.setText("yapıştır");
+        popupMenu.add(yapistirMenu);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -410,7 +439,6 @@ public void TabloGez(){
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel4.add(jButton1, gridBagConstraints);
 
@@ -485,6 +513,7 @@ public void TabloGez(){
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
+        jTextArea1.setComponentPopupMenu(popupMenu);
         jScrollPane2.setViewportView(jTextArea1);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -502,11 +531,37 @@ public void TabloGez(){
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         jPanel4.add(jLabel14, gridBagConstraints);
+
+        jTextField1.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel4.add(jTextField1, gridBagConstraints);
+
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/32x32/export_excel.png"))); // NOI18N
+        jButton5.setText("Excele Gönder");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        jPanel4.add(jButton5, gridBagConstraints);
+
+        jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/32x32/page_white_acrobat.png"))); // NOI18N
+        jButton12.setText("PDF Aktar");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 7;
+        jPanel4.add(jButton12, gridBagConstraints);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -609,6 +664,31 @@ public void TabloGez(){
         // TODO add your handling code here:
     }//GEN-LAST:event_jTable1KeyReleased
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        try {
+            ekseleYaz.writeToExcel(jTable1, "seminer.xlsx");
+            
+            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+"seminer.xlsx");
+            // TODO add your handling code here:
+        } catch (IOException ex) {
+            Logger.getLogger(lojmanEkran.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        try {
+            pdfYap.pdfYapp(jTable1, "Atama.pdf");
+            
+            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+"Atama.pdf");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(yoneticiEkrani.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DocumentException ex) {
+            Logger.getLogger(yoneticiEkrani.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+         Logger.getLogger(seminerTablo.class.getName()).log(Level.SEVERE, null, ex);
+     }
+    }//GEN-LAST:event_jButton12ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -655,8 +735,10 @@ public void TabloGez(){
     private javax.swing.JLabel imajLabel;
     private javax.swing.JTextField isim_TF;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton5;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JDesktopPane jDesktopPane2;
     private javax.swing.JLabel jLabel1;
@@ -683,6 +765,10 @@ public void TabloGez(){
     private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JMenuItem kesMenu;
+    private javax.swing.JMenuItem kopyalaMenu;
+    private javax.swing.JPopupMenu popupMenu;
     private javax.swing.JTextField telefon_TF;
+    private javax.swing.JMenuItem yapistirMenu;
     // End of variables declaration//GEN-END:variables
 }
