@@ -32,7 +32,7 @@ import org.jfree.ui.ApplicationFrame;
  *
  * @author Ruhi ÇELİK
  */
-public class BarChartAWT extends ApplicationFrame{
+public class BarChartAWT extends JFrame{
     JFreeChart barChart;
    Connection conn=null;
 ResultSet rs=null;

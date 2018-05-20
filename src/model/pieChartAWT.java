@@ -21,13 +21,12 @@ import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
-import org.jfree.ui.ApplicationFrame;
 
 /**
  *
  * @author Ruhi ÇELİK
  */
-public class pieChartAWT extends ApplicationFrame{
+public class pieChartAWT extends JFrame{
    JFreeChart pieChart;
    Connection conn=null;
 ResultSet rs=null;

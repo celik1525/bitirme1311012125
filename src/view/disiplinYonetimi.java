@@ -31,6 +31,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import model.PopupActionListener;
+import model.ekseleYaz;
 import model.jasperReportYap;
 import model.pdfYap;
 import net.proteanit.sql.DbUtils;
@@ -120,6 +121,7 @@ emf=javax.persistence.Persistence.createEntityManagerFactory("personelOtamasyonP
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jButton12 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         kesMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/16x16/cut.png"))); // NOI18N
         kesMenu.setText("kes");
@@ -134,6 +136,8 @@ emf=javax.persistence.Persistence.createEntityManagerFactory("personelOtamasyonP
         popupMenu.add(yapistirMenu);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("DİSİPLİN EKRANI");
+        setAlwaysOnTop(true);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 204));
 
@@ -479,6 +483,18 @@ emf=javax.persistence.Persistence.createEntityManagerFactory("personelOtamasyonP
         gridBagConstraints.gridy = 2;
         jPanel2.add(jButton12, gridBagConstraints);
 
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/32x32/export_excel.png"))); // NOI18N
+        jButton5.setText("Excele Gönder");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        jPanel2.add(jButton5, gridBagConstraints);
+
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
         pack();
@@ -603,6 +619,17 @@ finally{
     }
     }//GEN-LAST:event_jButton12ActionPerformed
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        try {
+            ekseleYaz.writeToExcel(jTable1, "disiplin.xlsx");
+
+            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+"disiplin.xlsx");
+            // TODO add your handling code here:
+        } catch (IOException ex) {
+            Logger.getLogger(lojmanEkran.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -695,6 +722,7 @@ javaConnect.sicil=sicil;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JDesktopPane jDesktopPane2;

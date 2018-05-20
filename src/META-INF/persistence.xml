@@ -28,7 +28,7 @@
     <class>entities.Malihaklar</class>
     <class>entities.Izindurum</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:C:\tasarım1311012125\tasarim.sqlite"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:tasarim.sqlite"/>
       <property name="javax.persistence.jdbc.user" value=""/>
       <property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC"/>
       <property name="javax.persistence.jdbc.password" value=""/>

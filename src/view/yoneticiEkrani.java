@@ -9,12 +9,14 @@ import entities.Izindurum;
 import entities.KimlikTablo;
 import entities.KisiAyrilan;
 import entities.Malihaklar;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import static java.lang.Thread.sleep;
 import java.sql.Connection;
@@ -32,10 +34,7 @@ import javax.persistence.TypedQuery;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import javax.swing.JTable;
@@ -47,6 +46,13 @@ import model.jasperReportYap;
 import model.pdfYap;
 import model.pieChartAWT;
 import net.proteanit.sql.DbUtils;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.util.Units;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
 /**
  *
@@ -61,7 +67,7 @@ PreparedStatement ps=null;
     EntityManagerFactory emf=null;
 int sicil=0;    
 int buyil=0;
-
+public static JButton p;
 
 public yoneticiEkrani() {
         initComponents();
@@ -79,13 +85,19 @@ emf=javax.persistence.Persistence.createEntityManagerFactory("personelOtamasyonP
 currentDate();
     curDate();
     yilKontrol();
-    
+    p=new JButton("");
+    p.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { //To change body of generated methods, choose Tools | Templates.
+           FillCombo();
+updateTable();
+        doldur(sicil);
+            }
+        });
 }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         popupMenu = new javax.swing.JPopupMenu();
         kesMenu = new javax.swing.JMenuItem();
@@ -96,14 +108,15 @@ currentDate();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
         dtf1 = new javax.swing.JTextField();
         dtf2 = new javax.swing.JTextField();
         dtf3 = new javax.swing.JTextField();
-        dtf4 = new javax.swing.JTextField();
-        dtf5 = new javax.swing.JTextField();
+        jPanel8 = new javax.swing.JPanel();
         jButton13 = new javax.swing.JButton();
+        dtf5 = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        dtf4 = new javax.swing.JTextField();
         jDialog2 = new javax.swing.JDialog();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
@@ -118,7 +131,6 @@ currentDate();
         silMenu = new javax.swing.JMenuItem();
         ayirMenu = new javax.swing.JMenuItem();
         ayirDialog = new javax.swing.JDialog();
-        jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
@@ -127,6 +139,12 @@ currentDate();
         ayrDate = new com.toedter.calendar.JDateChooser();
         jButton14 = new javax.swing.JButton();
         jButton15 = new javax.swing.JButton();
+        chartDialog = new javax.swing.JDialog();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        barchartButton = new javax.swing.JButton();
+        pieButton = new javax.swing.JButton();
+        barwordbutton = new javax.swing.JButton();
+        pieWoedButton = new javax.swing.JButton();
         jToolBar1 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
@@ -136,6 +154,8 @@ currentDate();
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
+        jButton17 = new javax.swing.JButton();
+        jButton16 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jDesktopPane2 = new javax.swing.JDesktopPane();
         imajLabel = new javax.swing.JLabel();
@@ -158,14 +178,19 @@ currentDate();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         Derece_TF = new javax.swing.JTextField();
+        jLabel25 = new javax.swing.JLabel();
+        butce_TF = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jTextField5 = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jComboBox1 = new javax.swing.JComboBox();
         jButton3 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jPanel9 = new javax.swing.JPanel();
+        jComboBox3 = new javax.swing.JComboBox<>();
+        jButton18 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         RAPORBT = new javax.swing.JButton();
@@ -239,10 +264,6 @@ currentDate();
 
         jLabel13.setText("Soyisim");
 
-        jLabel14.setText("Derece");
-
-        jLabel15.setText("Kademe");
-
         dtf1.setEditable(false);
         dtf1.setColumns(20);
 
@@ -252,9 +273,7 @@ currentDate();
         dtf3.setEditable(false);
         dtf3.setColumns(20);
 
-        dtf4.setColumns(20);
-
-        dtf5.setColumns(20);
+        jPanel8.setBorder(new javax.swing.border.MatteBorder(null));
 
         jButton13.setText("Değiştir");
         jButton13.addActionListener(new java.awt.event.ActionListener() {
@@ -262,6 +281,53 @@ currentDate();
                 jButton13ActionPerformed(evt);
             }
         });
+
+        dtf5.setColumns(20);
+
+        jLabel15.setText("Kademe");
+
+        jLabel14.setText("Derece");
+
+        dtf4.setColumns(20);
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel14)
+                        .addGap(28, 28, 28)
+                        .addComponent(dtf4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(dtf5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(jButton13)
+                .addContainerGap(101, Short.MAX_VALUE))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel14)
+                            .addComponent(dtf4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(dtf5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel15)))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(85, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -276,28 +342,20 @@ currentDate();
                         .addGap(47, 47, 47)
                         .addComponent(jLabel11)
                         .addGap(9, 9, 9)
-                        .addComponent(dtf1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(2, 2, 2)
-                        .addComponent(jLabel14)
-                        .addGap(2, 2, 2)
-                        .addComponent(dtf4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(jButton13))
+                        .addComponent(dtf1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jDialog1Layout.createSequentialGroup()
                         .addGap(46, 46, 46)
                         .addComponent(jLabel12)
                         .addGap(8, 8, 8)
-                        .addComponent(dtf2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(jLabel15)
-                        .addGap(0, 0, 0)
-                        .addComponent(dtf5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(dtf2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jDialog1Layout.createSequentialGroup()
                         .addGap(38, 38, 38)
                         .addComponent(jLabel13)
                         .addGap(0, 0, 0)
-                        .addComponent(dtf3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(211, Short.MAX_VALUE))
+                        .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(dtf3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(220, Short.MAX_VALUE))
         );
         jDialog1Layout.setVerticalGroup(
             jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -309,28 +367,22 @@ currentDate();
                         .addComponent(jLabel11))
                     .addGroup(jDialog1Layout.createSequentialGroup()
                         .addGap(1, 1, 1)
-                        .addComponent(dtf1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jDialog1Layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(jLabel14))
-                    .addGroup(jDialog1Layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(dtf4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton13))
+                        .addComponent(dtf1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(2, 2, 2)
                 .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(dtf2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dtf5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jDialog1Layout.createSequentialGroup()
                         .addGap(3, 3, 3)
-                        .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel15))))
+                        .addComponent(jLabel12)))
+                .addGap(14, 14, 14)
                 .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jDialog1Layout.createSequentialGroup()
                         .addGap(3, 3, 3)
                         .addComponent(jLabel13))
                     .addComponent(dtf3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(390, Short.MAX_VALUE))
+                .addGap(56, 56, 56)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(157, Short.MAX_VALUE))
         );
 
         jDialog2.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -446,56 +498,19 @@ currentDate();
         });
         jPopupMenu1.add(ayirMenu);
 
-        ayirDialog.getContentPane().setLayout(new java.awt.GridBagLayout());
-
-        jLabel21.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel21.setText("Ayrılan Kişi Bilgileri");
-        jLabel21.setPreferredSize(new java.awt.Dimension(400, 400));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        ayirDialog.getContentPane().add(jLabel21, gridBagConstraints);
-
         jLabel22.setText("Tarih");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        ayirDialog.getContentPane().add(jLabel22, gridBagConstraints);
 
         jLabel23.setText("GittiğiYer");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        ayirDialog.getContentPane().add(jLabel23, gridBagConstraints);
 
         jLabel24.setText("Ayrılma Nedeni");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        ayirDialog.getContentPane().add(jLabel24, gridBagConstraints);
 
-        yerTF.setColumns(20);
+        yerTF.setColumns(40);
         yerTF.setText(" ");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 3;
-        ayirDialog.getContentPane().add(yerTF, gridBagConstraints);
 
         nedTF.setColumns(20);
         nedTF.setText(" ");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 2;
-        ayirDialog.getContentPane().add(nedTF, gridBagConstraints);
 
         ayrDate.setDateFormatString("dd.MM.yyyy");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        ayirDialog.getContentPane().add(ayrDate, gridBagConstraints);
 
         jButton14.setText("DEVAM");
         jButton14.addActionListener(new java.awt.event.ActionListener() {
@@ -503,10 +518,6 @@ currentDate();
                 jButton14ActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
-        ayirDialog.getContentPane().add(jButton14, gridBagConstraints);
 
         jButton15.setText("İPTAL");
         jButton15.addActionListener(new java.awt.event.ActionListener() {
@@ -514,10 +525,124 @@ currentDate();
                 jButton15ActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 6;
-        ayirDialog.getContentPane().add(jButton15, gridBagConstraints);
+
+        javax.swing.GroupLayout ayirDialogLayout = new javax.swing.GroupLayout(ayirDialog.getContentPane());
+        ayirDialog.getContentPane().setLayout(ayirDialogLayout);
+        ayirDialogLayout.setHorizontalGroup(
+            ayirDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ayirDialogLayout.createSequentialGroup()
+                .addGroup(ayirDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ayirDialogLayout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addComponent(jLabel22)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(ayrDate, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(ayirDialogLayout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(jLabel24)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(nedTF, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(ayirDialogLayout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(jLabel23)
+                        .addGap(18, 18, 18)
+                        .addComponent(yerTF, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(ayirDialogLayout.createSequentialGroup()
+                        .addGap(210, 210, 210)
+                        .addComponent(jButton15)
+                        .addGap(29, 29, 29)
+                        .addComponent(jButton14)))
+                .addGap(46, 46, 46))
+        );
+        ayirDialogLayout.setVerticalGroup(
+            ayirDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ayirDialogLayout.createSequentialGroup()
+                .addGap(80, 80, 80)
+                .addGroup(ayirDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(ayrDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel22))
+                .addGap(20, 20, 20)
+                .addGroup(ayirDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nedTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel24))
+                .addGap(10, 10, 10)
+                .addGroup(ayirDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(yerTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel23))
+                .addGap(40, 40, 40)
+                .addGroup(ayirDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton15)
+                    .addComponent(jButton14)))
+        );
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ünvan", "Sendika", "Hizmet sınıfı", "Birim", "Mezuniyet", "Maas Tertibi" }));
+
+        barchartButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/statistik1.jpeg"))); // NOI18N
+        barchartButton.setText("BarChart");
+        barchartButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                barchartButtonActionPerformed(evt);
+            }
+        });
+
+        pieButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/32x32/piechart.png"))); // NOI18N
+        pieButton.setText("PieChart");
+        pieButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pieButtonActionPerformed(evt);
+            }
+        });
+
+        barwordbutton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/32x32/document_check_compatibility.png"))); // NOI18N
+        barwordbutton.setText("Word");
+        barwordbutton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                barwordbuttonActionPerformed(evt);
+            }
+        });
+
+        pieWoedButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/32x32/document_check_compatibility.png"))); // NOI18N
+        pieWoedButton.setText("Word");
+        pieWoedButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pieWoedButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout chartDialogLayout = new javax.swing.GroupLayout(chartDialog.getContentPane());
+        chartDialog.getContentPane().setLayout(chartDialogLayout);
+        chartDialogLayout.setHorizontalGroup(
+            chartDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, chartDialogLayout.createSequentialGroup()
+                .addGap(72, 72, 72)
+                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46)
+                .addGroup(chartDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(barwordbutton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(barchartButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(chartDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(chartDialogLayout.createSequentialGroup()
+                        .addComponent(pieWoedButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(375, 375, 375))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, chartDialogLayout.createSequentialGroup()
+                        .addComponent(pieButton)
+                        .addGap(361, 361, 361))))
+        );
+        chartDialogLayout.setVerticalGroup(
+            chartDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(chartDialogLayout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addGroup(chartDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(barchartButton, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pieButton, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19)
+                .addGroup(chartDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(barwordbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pieWoedButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(139, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 51));
@@ -534,6 +659,14 @@ currentDate();
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton1MouseExited(evt);
+            }
+        });
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -547,6 +680,14 @@ currentDate();
         jButton4.setFocusable(false);
         jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton4MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton4MouseExited(evt);
+            }
+        });
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -560,6 +701,14 @@ currentDate();
         jButton5.setFocusable(false);
         jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton5MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton5MouseExited(evt);
+            }
+        });
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
@@ -573,6 +722,14 @@ currentDate();
         jButton6.setFocusable(false);
         jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton6MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton6MouseExited(evt);
+            }
+        });
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
@@ -586,6 +743,14 @@ currentDate();
         jButton7.setFocusable(false);
         jButton7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton7MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton7MouseExited(evt);
+            }
+        });
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
@@ -599,6 +764,14 @@ currentDate();
         jButton8.setFocusable(false);
         jButton8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton8.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton8MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton8MouseExited(evt);
+            }
+        });
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton8ActionPerformed(evt);
@@ -606,12 +779,20 @@ currentDate();
         });
         jToolBar1.add(jButton8);
 
-        jButton9.setBackground(new java.awt.Color(204, 204, 255));
+        jButton9.setBackground(new java.awt.Color(255, 102, 102));
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/32x32/application_home.png"))); // NOI18N
         jButton9.setText("Lojman Tablo");
         jButton9.setFocusable(false);
         jButton9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton9.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton9MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton9MouseExited(evt);
+            }
+        });
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton9ActionPerformed(evt);
@@ -625,12 +806,62 @@ currentDate();
         jButton11.setFocusable(false);
         jButton11.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton11.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton11MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton11MouseExited(evt);
+            }
+        });
         jButton11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton11ActionPerformed(evt);
             }
         });
         jToolBar1.add(jButton11);
+
+        jButton17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/32x32/chart_curve.png"))); // NOI18N
+        jButton17.setText("Listeler İstatistikler");
+        jButton17.setToolTipText("İstatistikler");
+        jButton17.setFocusable(false);
+        jButton17.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton17.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton17.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton17MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton17MouseExited(evt);
+            }
+        });
+        jButton17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton17ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton17);
+
+        jButton16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/32x32/door.png"))); // NOI18N
+        jButton16.setText("ÇIKIŞ");
+        jButton16.setToolTipText("Çıkmak için");
+        jButton16.setFocusable(false);
+        jButton16.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton16.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton16.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton16MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton16MouseExited(evt);
+            }
+        });
+        jButton16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton16ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton16);
 
         getContentPane().add(jToolBar1, java.awt.BorderLayout.PAGE_START);
 
@@ -712,6 +943,12 @@ currentDate();
         Derece_TF.setEditable(false);
         Derece_TF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
+        jLabel25.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel25.setText("Maaş Tertibi");
+
+        butce_TF.setEditable(false);
+        butce_TF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -754,7 +991,11 @@ currentDate();
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
-                        .addComponent(KalanIzin_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(KalanIzin_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(butce_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -796,7 +1037,11 @@ currentDate();
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel10)
                     .addComponent(KalanIzin_TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel25)
+                    .addComponent(butce_TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -819,38 +1064,13 @@ currentDate();
                 .addComponent(jDesktopPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(128, Short.MAX_VALUE))
+                .addContainerGap(86, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 102));
         jPanel2.setPreferredSize(new java.awt.Dimension(500, 610));
-
-        jTable1.setAutoCreateRowSorter(true);
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jTable1.setComponentPopupMenu(jPopupMenu1);
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
-            }
-        });
-        jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTable1KeyReleased(evt);
-            }
-        });
-        jScrollPane1.setViewportView(jTable1);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "ARAMA", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial Black", 1, 12), new java.awt.Color(204, 204, 0))); // NOI18N
 
@@ -868,7 +1088,7 @@ currentDate();
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
+                .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -876,7 +1096,7 @@ currentDate();
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Listeden Seçim"));
@@ -916,30 +1136,91 @@ currentDate();
             }
         });
 
+        jTable1.setAutoCreateRowSorter(true);
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTable1.setComponentPopupMenu(jPopupMenu1);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTable1KeyReleased(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jTable1);
+
+        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gruplandır", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 255))); // NOI18N
+
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tümü", "Sendika", "Ünvan", "Hizmet Sınıfı", "Birim", "Mezuniyet", "Maas" }));
+
+        jButton18.setText("Git");
+        jButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton18ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBox3, 0, 191, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton18, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton18)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jScrollPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addComponent(jScrollPane2)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(175, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
@@ -1078,7 +1359,7 @@ currentDate();
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton10)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -1095,8 +1376,8 @@ currentDate();
         getContentPane().add(jPanel3, java.awt.BorderLayout.LINE_END);
 
         jMenu1.setBackground(new java.awt.Color(255, 153, 51));
-        jMenu1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jMenu1.setText("Kayıt");
+        jMenu1.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(0, 0, 255), null));
+        jMenu1.setText("Kayıt  ");
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem2.setText("Yeni Kayıt");
@@ -1138,7 +1419,7 @@ currentDate();
 
         jMenu2.setBackground(new java.awt.Color(255, 255, 204));
         jMenu2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        jMenu2.setText("Giriş");
+        jMenu2.setText("Giriş  ");
 
         jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem6.setText("İzin Girişi");
@@ -1198,7 +1479,7 @@ currentDate();
 
         jMenu3.setBackground(new java.awt.Color(204, 255, 153));
         jMenu3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jMenu3.setText("Listeler");
+        jMenu3.setText("Listeler  ");
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem1.setText("Sendika Listesi");
@@ -1249,7 +1530,7 @@ currentDate();
 
         jMenu4.setBackground(new java.awt.Color(204, 204, 255));
         jMenu4.setBorder(javax.swing.BorderFactory.createCompoundBorder());
-        jMenu4.setText("Hakkında");
+        jMenu4.setText("Hakkında  ");
 
         jMenuItem16.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem16.setText("Yardım");
@@ -1278,17 +1559,21 @@ currentDate();
 
         jMenuBar1.add(jMenu4);
 
-        jMenu5.setText("Tarih");
+        jMenu5.setText("Tarih  ");
         jMenuBar1.add(jMenu5);
 
-        jMenu6.setText("Saaat");
+        jMenu6.setText("Saaat  ");
         jMenuBar1.add(jMenu6);
 
         setJMenuBar(jMenuBar1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-private void temizle(){
+
+    public static void yenile(){
+   p.doClick();
+}
+    private void temizle(){
    isim_TF.setText("");
 Soyisim_TF.setText("");
 Unvan_TF.setText("");
@@ -1300,64 +1585,33 @@ TCkimlik_TF.setText("");
  KalanIzin_TF.setText("");
  imajLabel.setIcon(null);
 }
-    private void tablo(int num){
-    temizle();
-    try{
-        int tableClick=num;
-        sicil=tableClick; // seçili kişinin üzerinde işlem yapılabilmesi için
-TypedQuery<KimlikTablo> query =em.createNamedQuery("KimlikTablo.findBySicil", KimlikTablo.class).setParameter("sicil",tableClick );
-TypedQuery<Malihaklar> sor =em.createNamedQuery("Malihaklar.findBySicil", Malihaklar.class).setParameter("sicil",tableClick );
-TypedQuery<Izindurum> sorg =em.createNamedQuery("Izindurum.findBySicil", Izindurum.class).setParameter("sicil",tableClick );
-TypedQuery<AtamaTablo> sorgu=em.createNamedQuery("AtamaTablo.findBySicil",AtamaTablo.class).setParameter("sicil",tableClick);
-TypedQuery<GirisTablo> so=em.createNamedQuery("GirisTablo.findBySicil",GirisTablo.class).setParameter("sicil",tableClick);
-Icon resim=new ImageIcon(so.getSingleResult().getImage());
-imajLabel.setIcon(resim);
-isim_TF.setText(sorgu.getSingleResult().getName());
-Soyisim_TF.setText(sorgu.getSingleResult().getSirname());
-Unvan_TF.setText(sorgu.getSingleResult().getUnvan());
-Sicil_TF.setText(sorgu.getSingleResult().getSicil().toString());
-TCkimlik_TF.setText(query.getSingleResult().getTCKimlik());
- telefon_TF.setText(query.getSingleResult().getTelefon());
- Derece_TF.setText(sor.getSingleResult().getDerece().toString());
- Kademe_TF.setText(sor.getSingleResult().getKademe().toString());
- KalanIzin_TF.setText(sorg.getSingleResult().getKalanyillikizin().toString());
-javaConnect.sicil=sicil;
-  
-    
-    } catch(Exception e){
-         }
-    }
-//    private void donatTF(int sicil){
-//    String sql="SELECT a.sicil, a.name, a.sirname, a.unvan, k.telefon, k.TCKimlik, m.derece,"
-//            + " m.kademe, i.kalanYillikizin, g.image FROM atamaTablo a, KimlikTablo k,"
-//            + " maliHaklar m, izindurum i, girisTablo g where  a.sicil=k.sicil and"
-//            + " k.sicil=m.sicil and m.sicil=i.sicil and i.sicil=g.sicil and g.sicil=?";
-//try{
-//    ps=conn.prepareStatement(sql);
-//    ps.setInt(1, sicil);
-//    ps.execute();
-//    if(rs.next()){
-//        Sicil_TF.setText(rs.getString(1));
-//        isim_TF.setText(rs.getString(2));
-//        Soyisim_TF.setText(rs.getString(3));
-//        Unvan_TF.setText(rs.getString(4));
-//        telefon_TF.setText(rs.getString(5));
-//        TCkimlik_TF.setText(rs.getString(6));
-//        Derece_TF.setText(rs.getString(7));
-//        Kademe_TF.setText(rs.getString(8));
-//        KalanIzin_TF.setText(rs.getString(8));
-//         byte [] imagedata=rs.getBytes(9);
-//    format=new ImageIcon(imagedata);
-//    imajLabel.setIcon(format);
+//    private void tablo(int num){
+//    temizle();
+//    try{         // seçili kişinin üzerinde işlem yapılabilmesi için
+//TypedQuery<KimlikTablo> query =em.createNamedQuery("KimlikTablo.findBySicil", KimlikTablo.class).setParameter("sicil",num);
+//TypedQuery<Malihaklar> sor =em.createNamedQuery("Malihaklar.findBySicil", Malihaklar.class).setParameter("sicil",num );
+//TypedQuery<Izindurum> sorg =em.createNamedQuery("Izindurum.findBySicil", Izindurum.class).setParameter("sicil",num );
+//TypedQuery<AtamaTablo> sorgu=em.createNamedQuery("AtamaTablo.findBySicil",AtamaTablo.class).setParameter("sicil",num);
+//TypedQuery<GirisTablo> so=em.createNamedQuery("GirisTablo.findBySicil",GirisTablo.class).setParameter("sicil",num);
+//Icon resim=new ImageIcon(so.getSingleResult().getImage());
+//imajLabel.setIcon(resim);
+//isim_TF.setText(sorgu.getSingleResult().getName());
+//Soyisim_TF.setText(sorgu.getSingleResult().getSirname());
+//Unvan_TF.setText(sorgu.getSingleResult().getUnvan());
+//Sicil_TF.setText(sorgu.getSingleResult().getSicil().toString());
+//TCkimlik_TF.setText(query.getSingleResult().getTCKimlik());
+// telefon_TF.setText(query.getSingleResult().getTelefon());
+// Derece_TF.setText(sor.getSingleResult().getDerece().toString());
+// Kademe_TF.setText(sor.getSingleResult().getKademe().toString());
+// KalanIzin_TF.setText(sorg.getSingleResult().getKalanyillikizin().toString());
+//butce_TF.setText(sor.getSingleResult().getMaas());
+// javaConnect.sicil=num;
+//  
+//    
+//    } catch(Exception e){
+//         }
 //    }
-//}catch(Exception e){}
-//finally{
-//    try{
-//        rs.close();
-//        ps.close();
-//    }catch(Exception e){}
-//}
-//}
+
 private void hakedisDuzelt(int sicil){
     String sql="UPDATE izindurum set izinhakedis=? where sicil=?";
     try{
@@ -1519,7 +1773,8 @@ private void updateYil(){
             if(rs.next()){
                 int add1=rs.getInt("sicil");                
                 sicil=add1;
-                tablo(sicil);
+                doldur(sicil);
+                javaConnect.sicil=sicil;
             }}catch(Exception e){
             }finally{
                 try{
@@ -1535,7 +1790,8 @@ private void updateYil(){
             if(rs.next()){
                 int add1=rs.getInt("sicil");                
                 sicil=add1;
-                tablo(sicil);
+                doldur(sicil);
+                javaConnect.sicil=sicil;
             }}catch(Exception e){
             }finally{
                 try{
@@ -1552,7 +1808,8 @@ private void updateYil(){
             if(rs.next()){
                 int add1=rs.getInt("sicil");                
                 sicil=add1;
-                tablo(sicil);
+                doldur(sicil);
+                javaConnect.sicil=sicil;
             }}catch(Exception e){
             }finally{
                 try{
@@ -1577,7 +1834,8 @@ private void updateYil(){
             if(rs.next()){
                 int add1=rs.getInt("sicil");                
                 sicil=add1;
-                tablo(sicil);
+                doldur(sicil);
+                javaConnect.sicil=sicil;
                 }
         }catch(Exception r){
 
@@ -1595,7 +1853,7 @@ private void updateYil(){
 
     private void PRINTBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PRINTBTActionPerformed
         MessageFormat header=new MessageFormat("Rapor Çıktı");
-        MessageFormat footer=new MessageFormat("Sayfa{0,number;integer}");
+        MessageFormat footer=new MessageFormat("Sayfa{0,number,integer}");
         try{
             jTable1.print(JTable.PrintMode.NORMAL,header,footer);
         }catch(java.awt.print.PrinterException e){
@@ -1603,9 +1861,16 @@ private void updateYil(){
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_PRINTBTActionPerformed
-public void kayitSil(){
-           try{
-            JFrame p=new JFrame();
+
+    public void kayitSil(){
+    
+    try{
+           
+
+int pt=JOptionPane.showConfirmDialog(null,"Silmek istediğinizden emin misiniz?","SİL",JOptionPane.YES_NO_OPTION);
+        if (pt==0){
+  
+               JFrame p=new JFrame();
             JProgressBar pbar=new JProgressBar();
             pbar.setStringPainted(true);
             pbar.setMaximum(5);
@@ -1620,28 +1885,34 @@ public void kayitSil(){
             em.remove(at);
             em.getTransaction().commit();
             pbar.setValue(1);
-            KimlikTablo kt=em.find(KimlikTablo.class, sicil);
+      
+KimlikTablo kt=em.find(KimlikTablo.class, sicil);
             em.getTransaction().begin();
             em.remove(kt);
             em.getTransaction().commit();
             pbar.setValue(2);
-            Malihaklar mh=em.find(Malihaklar.class, sicil);
+            
+Malihaklar mh=em.find(Malihaklar.class, sicil);
             em.getTransaction().begin();
             em.remove(mh);
             em.getTransaction().commit();
             pbar.setValue(3);
+
             Izindurum iz=em.find(Izindurum.class, sicil);
             em.getTransaction().begin();
             em.remove(iz);
             em.getTransaction().commit();
             pbar.setValue(4);
+
             GirisTablo gt=em.find(GirisTablo.class, sicil);
             em.getTransaction().begin();
             em.remove(gt);
             em.getTransaction().commit();
             pbar.setValue(5);
             JOptionPane.showMessageDialog(null, "SİLİNDİ");
-            p.dispose();
+        p.dispose();
+        yenile();
+        }       
             if (ayirDialog.isVisible())
                 ayirDialog.dispose();
         }catch(Exception e){
@@ -1665,11 +1936,20 @@ ekle.setVisible(true);
     }//GEN-LAST:event_InsertButtonActionPerformed
 
     private void ChartBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChartBTActionPerformed
-String sql="select unvan, count(name) from atamaTablo group by unvan";
-        BarChartAWT bc=new BarChartAWT(sql, sql, sql);
-        bc.setSize(400, 400);
-        bc.setVisible(true);        
+//String sql="select unvan, count(name) from atamaTablo group by unvan";
+//        BarChartAWT bc=new BarChartAWT("Personel Tablosu", "Ünvan Dağılımı", sql);
+//        
+//        bc.setSize(400, 400);
+//        bc.setVisible(true);        
         
+barchartButton.setVisible(true);
+barwordbutton.setVisible(false);
+pieWoedButton.setVisible(false);
+pieButton.setVisible(false);
+chartDialog.setSize(650,250);
+chartDialog.setVisible(true);
+
+
 //        
 //        try{
 //            DefaultPieDataset pd=new DefaultPieDataset();
@@ -1694,29 +1974,55 @@ String sql="select unvan, count(name) from atamaTablo group by unvan";
 //        }
         // TODO add your handling code here:
     }//GEN-LAST:event_ChartBTActionPerformed
+private void listeSec(){
+    String sorgu0="select * from atamaTablo";
+    String sorgu1="Select a.sicil, a.name, a.sirname, a.unvan, a.sicil, m.sendika from atamaTablo a, malihaklar m where a.sicil=m.sicil group by m.sendika";
+    String sorgu2="Select sicil, name, sirname, sicil, unvan, hizmetsinifi from atamaTablo group by unvan ";
+    String sorgu3="Select sicil, name, sirname, sicil, unvan, hizmetsinifi from atamaTablo group by hizmetsinifi ";
+    String sorgu4="Select sicil, name, sirname, sicil, unvan, hizmetsinifi from atamaTablo group by birim ";
+    String sorgu5="Select a.sicil, a.name, a.sirname, a.unvan, a.sicil, m.mezuniyet from atamaTablo a, malihaklar m where a.sicil=m.sicil group by m.mezuniyet";
+    String sorgu6="Select a.sicil,a.name, a.sirname, a.unvan, a.sicil, m.maas from atamaTablo a, malihaklar m where a.sicil=m.sicil group by m.maas";
+    String sorgu=null;
+    int k=jComboBox3.getSelectedIndex();
+switch (k) {
+    case 0:  sorgu=sorgu0; break;
+    case 1:  sorgu=sorgu1; break;
+    case 2:  sorgu=sorgu2; break;
+    case 3:  sorgu=sorgu3; break;
+    case 4:  sorgu=sorgu4; break;
+    case 5:  sorgu=sorgu5; break;
+    case 6:  sorgu=sorgu6; break;
+    default:sorgu=sorgu0; break;
+};
+   try{
+               
+        ps=conn.prepareStatement(sorgu);
+        rs=ps.executeQuery();
+        jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+    }   catch(Exception e){
+        
+    }finally{
+        try{
+            rs.close();
+        ps.close();
+        } catch(Exception e){
+        
+    }
+}
+}
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-//        try{
-//            DefaultCategoryDataset dataset=new DefaultCategoryDataset();
-//            dataset.setValue(80, "Markus", "Kişi1");
-//            dataset.setValue(50, "Makus", "Kşi2");
-//            dataset.setValue(75, "Makus", "Kii3");
-//            dataset.setValue(95, "Mars", "Kişi4");
-//            JFreeChart chart=ChartFactory.createBarChart("Personel DAĞILIMI", "Atama Şekli",
-//                "Marks", dataset,PlotOrientation.VERTICAL,false,true,false);
-//            CategoryPlot P=chart.getCategoryPlot();
-//            P.setRangeGridlinePaint(Color.BLACK);
-//            ChartFrame fr=new ChartFrame("Bar Chart", chart);
-//            // TODO add your handling code here:
-//            fr.setVisible(true);
-//            fr.setSize(450,350);
-//        }catch(Exception e){
-//
-//        }
-String sql="select unvan, count(name) from atamaTablo group by unvan";
-        pieChartAWT pc=new pieChartAWT("Ünvan Dağılımı", sql);
-        pc.setSize(400, 400);
-        pc.setVisible(true);
+barchartButton.setVisible(false);
+barwordbutton.setVisible(false);
+pieWoedButton.setVisible(false);
+pieButton.setVisible(true);
+chartDialog.setSize(650,250);
+chartDialog.setVisible(true);
+
+//String sql="select unvan, count(name) from atamaTablo group by unvan";
+//        pieChartAWT pc=new pieChartAWT("Ünvan Dağılımı", sql);
+//        pc.setSize(400, 400);
+//        pc.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void UPDATEBUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UPDATEBUTTONActionPerformed
@@ -1782,7 +2088,8 @@ String yer=yerr;
 if(sicil==0)
     JOptionPane.showMessageDialog(null, "Tablodan veya Komboboxtan Değiştirmek istediğiniz kişiyi seçin");
 else{
-ayirDialog.setVisible(true);
+ayirDialog.setSize(500,500);
+    ayirDialog.setVisible(true);
 
 }
         // TODO add your handling code here:
@@ -1792,7 +2099,9 @@ ayirDialog.setVisible(true);
          if(evt.getKeyCode()==KeyEvent.VK_UP||evt.getKeyCode()==KeyEvent.VK_DOWN){
             int Row=jTable1.getSelectedRow();
             int tableClick=(int) (jTable1.getModel().getValueAt(Row, 0));
-            tablo(tableClick);
+            doldur(tableClick);
+            sicil=tableClick;
+            javaConnect.sicil=sicil;
          }  // TODO add your handling code here:
     }//GEN-LAST:event_jTable1KeyReleased
 
@@ -1800,50 +2109,76 @@ ayirDialog.setVisible(true);
          
             int Row=jTable1.getSelectedRow();
             int tableClick=(int) (jTable1.getModel().getValueAt(Row, 0));
-            tablo(tableClick);
+            doldur(tableClick);
+            sicil=tableClick;
+            javaConnect.sicil=sicil;
        // TODO add your handling code here:
     }//GEN-LAST:event_jTable1MouseClicked
+
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 FillCombo();
 updateTable();
+        doldur(sicil);
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-izinEkran ekran=new izinEkran();
-ekran.setVisible(true);
-        // TODO add your handling code here:
+//izinEkran ekran=new izinEkran();
+//ekran.setVisible(true);
+if(sicil==0)
+    JOptionPane.showMessageDialog(null, "Tablodan veya Komboboxtan Değiştirmek istediğiniz kişiyi seçin");
+else{
+
+new izin().setVisible(true);
+}        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
- gorevEkran ge=new gorevEkran();
+if(sicil==0)
+    JOptionPane.showMessageDialog(null, "Tablodan veya Komboboxtan Değiştirmek istediğiniz kişiyi seçin");
+else{
+
+        gorevEkran ge=new gorevEkran();
  ge.setVisible(true);
-        // TODO add your handling code here:
+}// TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
 ikincilTabloEkran tabloEkran=new ikincilTabloEkran();
+tabloEkran.setExtendedState(JFrame.MAXIMIZED_BOTH);
 tabloEkran.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
- disiplinYonetimi disip=new disiplinYonetimi();
+if(sicil==0)
+    JOptionPane.showMessageDialog(null, "Tablodan veya Komboboxtan Değiştirmek istediğiniz kişiyi seçin");
+else{
+
+        disiplinYonetimi disip=new disiplinYonetimi();
  disip.setVisible(true);
-        // TODO add your handling code here:
+}   // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
- odulEkran odEk=new odulEkran();
+if(sicil==0)
+    JOptionPane.showMessageDialog(null, "Tablodan veya Komboboxtan Değiştirmek istediğiniz kişiyi seçin");
+else{
+
+        odulEkran odEk=new odulEkran();
  odEk.setVisible(true);
-        // TODO add your handling code here:
+} // TODO add your handling code here:
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
- seminerTablo semT=new seminerTablo();
+ if(sicil==0)
+    JOptionPane.showMessageDialog(null, "Tablodan veya Komboboxtan Değiştirmek istediğiniz kişiyi seçin");
+else{
+
+        seminerTablo semT=new seminerTablo();
  semT.setVisible(true);
-        // TODO add your handling code here:
+ }  // TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
@@ -1869,29 +2204,36 @@ loj.setVisible(true);
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void RAPORBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RAPORBTActionPerformed
-//try{
+        try {
+            //try{
 //    String report="C:\\Users\\Ruhi ÇELİK\\Documents\\NetBeansProjects\\projec123JPA\\report1.jrxml";
 //    JasperReport jr=JasperCompileManager.compileReport(report);
 //    JasperPrint jp=JasperFillManager.fillReport(jr,null,conn);
 //    JasperViewer.viewReport(jp);
 //}catch(Exception e){}
-        // TODO add your handling code here:
-       String sql="select * from atamaTablo order by name";
-       String path="report2.jrxml";
-        new jasperReportYap().raporla(path, sql);
+// TODO add your handling code here:
+String sql="select * from atamaTablo order by name";
+String path="report2.jrxml";
+new jasperReportYap().raporla(path, sql);
+        } catch (IOException ex) {
+            Logger.getLogger(yoneticiEkrani.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_RAPORBTActionPerformed
 
     
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         try {
             pdfYap.pdfYapp(jTable1, "Atama.pdf");
-            
+           // createTable2word();
             Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+"Atama.pdf");
         } catch (FileNotFoundException ex) {
             Logger.getLogger(yoneticiEkrani.class.getName()).log(Level.SEVERE, null, ex);
         } catch (DocumentException ex) {
             Logger.getLogger(yoneticiEkrani.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
+            Logger.getLogger(yoneticiEkrani.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
             Logger.getLogger(yoneticiEkrani.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton12ActionPerformed
@@ -1991,7 +2333,7 @@ try{Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+yol);
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem16ActionPerformed
 public void kademeIlerle(String derece, String kademe){
-   String sql="update table malihaklar set (derece,kademe) values (?,?) where sicil=?";
+   String sql="update malihaklar set derece=?, kademe=? where sicil=?";
     try{
         ps=conn.prepareStatement(sql);
         ps.setString(1, derece);
@@ -2016,14 +2358,19 @@ if(sicil==0)
 
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
+    
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
 String sql="update malihaklar set derece=?, kademe=? where sicil=?";
 try{
     ps=conn.prepareStatement(sql);
     ps.setString(1, dtf4.getText());
-    ps.setString(2, jTextField5.getText());
+    ps.setString(2, dtf5.getText());
+    ps.setString(3, String.valueOf(sicil));
     ps.execute();
+    jDialog1.dispose();
     JOptionPane.showMessageDialog(null, "GÜNCELLENDİ");
+    yenile();
+    
 }catch(Exception e){}
 finally{
     try{
@@ -2132,6 +2479,358 @@ kayitSil();
 ayirDialog.dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton15ActionPerformed
+public void doldur(int sic){
+    String sql="select a.name, a.sirname, a.sicil, a.unvan, k.TCKimlik, k.telefon, m.derece, m.kademe, i.kalanyillikizin,"
+            + " m.maas, g.image from atamaTablo a,KimlikTablo k, malihaklar m, izindurum i, girisTablo g where a.sicil=k.sicil and k.sicil=m.sicil and "
+            + "m.sicil=i.sicil and i.sicil=g.sicil and g.sicil=? ";
+    
+    try{ps=conn.prepareStatement(sql);
+    ps.setInt(1, sic);
+    rs=ps.executeQuery();
+    if (rs.next()){
+        isim_TF.setText(rs.getString(1));
+        Soyisim_TF.setText(rs.getString(2));
+        Sicil_TF.setText(rs.getString(3));
+        Unvan_TF.setText(rs.getString(4));
+        TCkimlik_TF.setText(rs.getString(5));
+        telefon_TF.setText(rs.getString(6));
+        Derece_TF.setText(rs.getString(7));
+        Kademe_TF.setText(rs.getString(8));
+        KalanIzin_TF.setText(rs.getString(9));
+        butce_TF.setText(rs.getString(10));
+        byte [] imagedata=rs.getBytes(11);
+    format=new ImageIcon(imagedata);
+    imajLabel.setIcon(format);
+    }
+        
+    }catch(Exception e){    }
+finally{
+    try{
+        ps.close();
+        rs.close();
+    }catch(Exception e){    }
+}
+}    
+    
+    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
+System.exit(0);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton16ActionPerformed
+
+    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
+new Listeler().setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton17ActionPerformed
+
+    private void jButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseEntered
+jButton1.setBackground(Color.blue);
+jButton1.setForeground(Color.red);
+
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1MouseEntered
+
+    private void jButton1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseExited
+     jButton1.setBackground(Color.gray);
+jButton1.setForeground(Color.black);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1MouseExited
+
+    private void jButton4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseEntered
+jButton4.setBackground(Color.blue);
+jButton4.setForeground(Color.red);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4MouseEntered
+
+    private void jButton4MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseExited
+     jButton4.setBackground(Color.gray);
+jButton4.setForeground(Color.black);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4MouseExited
+
+    private void jButton5MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseEntered
+      jButton5.setBackground(Color.blue);
+jButton5.setForeground(Color.red);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5MouseEntered
+
+    private void jButton5MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseExited
+        jButton5.setBackground(Color.gray);
+jButton5.setForeground(Color.black);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5MouseExited
+
+    private void jButton6MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseEntered
+      jButton6.setBackground(Color.blue);
+jButton6.setForeground(Color.red);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6MouseEntered
+
+    private void jButton6MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseExited
+        jButton6.setBackground(Color.gray);
+jButton6.setForeground(Color.black);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6MouseExited
+
+    private void jButton7MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseExited
+        jButton7.setBackground(Color.gray);
+jButton7.setForeground(Color.black);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7MouseExited
+
+    private void jButton7MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseEntered
+        jButton7.setBackground(Color.blue);
+jButton7.setForeground(Color.red);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7MouseEntered
+
+    private void jButton8MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseEntered
+                jButton8.setBackground(Color.blue);
+jButton8.setForeground(Color.red);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton8MouseEntered
+
+    private void jButton8MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseExited
+        jButton8.setBackground(Color.gray);
+jButton8.setForeground(Color.black);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton8MouseExited
+
+    private void jButton9MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton9MouseExited
+        jButton9.setBackground(Color.gray);
+jButton9.setForeground(Color.black);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton9MouseExited
+
+    private void jButton9MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton9MouseEntered
+ jButton9.setBackground(Color.blue);
+jButton9.setForeground(Color.red);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton9MouseEntered
+
+    private void jButton11MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton11MouseEntered
+jButton11.setBackground(Color.blue);
+jButton11.setForeground(Color.red);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton11MouseEntered
+
+    private void jButton11MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton11MouseExited
+ jButton11.setBackground(Color.gray);
+jButton11.setForeground(Color.black);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton11MouseExited
+
+    private void jButton17MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton17MouseEntered
+ jButton17.setBackground(Color.blue);
+jButton17.setForeground(Color.red);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton17MouseEntered
+
+    private void jButton17MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton17MouseExited
+jButton17.setBackground(Color.gray);
+jButton17.setForeground(Color.black);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton17MouseExited
+
+    private void jButton16MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton16MouseEntered
+ jButton16.setBackground(Color.blue);
+jButton16.setForeground(Color.red);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton16MouseEntered
+
+    private void jButton16MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton16MouseExited
+ jButton16.setBackground(Color.gray);
+jButton16.setForeground(Color.black);       // TODO add your handling code here:
+    }//GEN-LAST:event_jButton16MouseExited
+
+    private void barchartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barchartButtonActionPerformed
+String sorgu1="select unvan, count(name) from atamaTablo group by unvan";
+String sorgu2="select sendika, count(sicil) from maliHaklar group by sendika";
+String sorgu3="select hizmetsinifi, count(sicil) from atamaTablo group by hizmetsinifi";
+String sorgu4="select birim, count(sicil) from atamaTablo group by birim";
+String sorgu5="select mezuniyet, count(sicil) from malihaklar group by mezuniyet";
+String sorgu6="select maas, count(sicil) from malihaklar group by maas";
+String sql=sorgu1; 
+String ad="Ünvan Dağılımı";
+int k=jComboBox2.getSelectedIndex();
+switch (k){
+    case 0 : sql=sorgu1; ad="Ünvan Dağılımı"; break;
+    case 1 : sql=sorgu2; ad="Sendika Dağılımı"; break;
+    case 2 : sql=sorgu3; ad="Hizmet Sınıfı Dağılımı"; break;
+    case 3 : sql=sorgu4; ad="Birim Dağılımı"; break;
+    case 4 : sql=sorgu5; ad="Mezuniyet Dağılımı"; break;
+    case 5 : sql=sorgu6; ad="Maaş Tertibi Dağılımı"; break;
+    default : sql=sorgu1; ad="Ünvan Dağılımı"; break;
+};
+
+    BarChartAWT bc=new BarChartAWT("Personel Tablosu", ad, sql);
+
+barwordbutton.setVisible(true);
+        bc.setSize(400, 400);
+        bc.setVisible(true);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_barchartButtonActionPerformed
+
+    private void pieButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pieButtonActionPerformed
+String sorgu1="select unvan, count(name) from atamaTablo group by unvan";
+String sorgu2="select sendika, count(sicil) from maliHaklar group by sendika";
+String sorgu3="select hizmetsinifi, count(sicil) from atamaTablo group by hizmetsinifi";
+String sorgu4="select birim, count(sicil) from atamaTablo group by birim";
+String sorgu5="select mezuniyet, count(sicil) from malihaklar group by mezuniyet";
+String sorgu6="select maas, count(sicil) from malihaklar group by maas";
+String sql=sorgu1; 
+String ad="Ünvan Dağılımı";
+int k=jComboBox2.getSelectedIndex();
+switch (k){
+    case 0 : sql=sorgu1; ad="Ünvan Dağılımı"; break;
+    case 1 : sql=sorgu2; ad="Sendika Dağılımı"; break;
+    case 2 : sql=sorgu3; ad="Hizmet Sınıfı Dağılımı"; break;
+    case 3 : sql=sorgu4; ad="Birim Dağılımı"; break;
+    case 4 : sql=sorgu5; ad="Mezuniyet Dağılımı"; break;
+    case 5 : sql=sorgu6; ad="Maaş Tertibi Dağılımı"; break;
+    default : sql=sorgu1; ad="Ünvan Dağılımı"; break;
+};
+    pieChartAWT pc=new pieChartAWT(ad, sql);
+pieWoedButton.setVisible(true);
+    pc.setSize(400, 400);
+        pc.setVisible(true);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pieButtonActionPerformed
+public void PiechartToWord() throws FileNotFoundException, InvalidFormatException, IOException{
+    XWPFDocument doc = new XWPFDocument();
+        XWPFParagraph p = doc.createParagraph();
+        XWPFRun xwpfRun = p.createRun();
+        String[] IMageargs={       "Piechart.jpeg"};
+        for (String imgFile : IMageargs) {
+            int format=XWPFDocument.PICTURE_TYPE_JPEG;
+            xwpfRun.setText(imgFile);
+            xwpfRun.addBreak();
+            xwpfRun.addPicture (new FileInputStream(imgFile), format, imgFile, Units.toEMU(200), Units.toEMU(200)); // 200x200 pixels
+   
+            //xwpfRun.addBreak(BreakType.PAGE);
+        }
+FileOutputStream out = new FileOutputStream("pietest.docx");
+
+doc.write(out);
+out.close();
+Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+"pietest.docx");
+}                
+
+    
+    public void chartToWord() throws FileNotFoundException, InvalidFormatException, IOException{
+    XWPFDocument doc = new XWPFDocument();
+        XWPFParagraph p = doc.createParagraph();
+        XWPFRun xwpfRun = p.createRun();
+        String[] IMageargs={       "Barchart.jpeg"};
+        for (String imgFile : IMageargs) {
+            int format=XWPFDocument.PICTURE_TYPE_JPEG;
+            xwpfRun.setText(imgFile);
+            xwpfRun.addBreak();
+            xwpfRun.addPicture (new FileInputStream(imgFile), format, imgFile, Units.toEMU(200), Units.toEMU(200)); // 200x200 pixels
+   
+            //xwpfRun.addBreak(BreakType.PAGE);
+        }
+FileOutputStream out = new FileOutputStream("bartest.docx");
+
+doc.write(out);
+out.close();
+Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+"bartest.docx");
+}    
+    
+public void createTable2word()throws Exception{
+//String [][] seri = null;
+try {
+        
+XWPFDocument document = new XWPFDocument();
+FileOutputStream out = new FileOutputStream(new File("table.docx"));      
+XWPFTable table = document.createTable();
+int k=jTable1.getRowCount();
+int t=jTable1.getColumnCount();
+      //      int Row=jTable1.getSelectedRow();
+      //      int tableClick=(int) (jTable1.getModel().getValueAt(Row, 0));
+//XWPFTableRow row = table.getRow(0)
+for (int i=0;i<k;i++){
+   XWPFTableRow row = table.getRow(i);
+   
+    for (int j=0;j<t;j++){
+row.addNewTableCell().setText((String) jTable1.getModel().getValueAt(j, t));
+//        seri [i][j]= (String) jTable1.getModel().getValueAt(j, t);
+    //row.addNewTableCell().setText((String) jTable1.getModel().getValueAt(j, t));
+  //      System.out.print(seri [i][j]);
+    }
+}
+
+//for (int i=0;i<k;i++){
+//XWPFTableRow row = table.createRow();
+//    for (int j=0;j<t;j++){
+// //  row.getCell(j).setText(seri[i][j]);
+//    row.addNewTableCell().setText(seri[i][j]);
+//    }
+//}
+
+//XWPFTableRow tableRowOne = table.getRow(0);
+//    tableRowOne.getCell(0).setText("col one, row one");
+//    tableRowOne.addNewTableCell().setText("col two, row one");
+//    tableRowOne.addNewTableCell().setText("col three, row one");
+//		
+//      //create second row
+//      XWPFTableRow tableRowTwo = table.createRow();
+//      tableRowTwo.getCell(0).setText("col one, row two");
+//      tableRowTwo.getCell(1).setText("col two, row two");
+//      tableRowTwo.getCell(2).setText("col three, row two");
+//		
+//      //create third row
+//      XWPFTableRow tableRowThree = table.createRow();
+//      tableRowThree.getCell(0).setText("col one, row three");
+//      tableRowThree.getCell(1).setText("col two, row three");
+//      tableRowThree.getCell(2).setText("col three, row three");
+	
+      document.write(out);
+      out.close();
+Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+"table.docx");
+} catch (ArrayIndexOutOfBoundsException e) {
+JOptionPane.showMessageDialog(null, e.toString());
+}
+}
+    private void barwordbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barwordbuttonActionPerformed
+        try {
+            chartToWord();
+            // TODO add your handling code here:
+        } catch (InvalidFormatException ex) {
+            Logger.getLogger(yoneticiEkrani.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(yoneticiEkrani.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_barwordbuttonActionPerformed
+
+    private void pieWoedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pieWoedButtonActionPerformed
+        try {
+            PiechartToWord();
+            // TODO add your handling code here:
+        } catch (InvalidFormatException ex) {
+            Logger.getLogger(yoneticiEkrani.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(yoneticiEkrani.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_pieWoedButtonActionPerformed
+
+    private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
+listeSec();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton18ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2186,6 +2885,10 @@ ayirDialog.dispose();
     private javax.swing.JDialog ayirDialog;
     private javax.swing.JMenuItem ayirMenu;
     private com.toedter.calendar.JDateChooser ayrDate;
+    private javax.swing.JButton barchartButton;
+    private javax.swing.JButton barwordbutton;
+    private javax.swing.JTextField butce_TF;
+    private javax.swing.JDialog chartDialog;
     private javax.swing.JTextField dtf1;
     private javax.swing.JTextField dtf2;
     private javax.swing.JTextField dtf3;
@@ -2202,6 +2905,9 @@ ayirDialog.dispose();
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
+    private javax.swing.JButton jButton16;
+    private javax.swing.JButton jButton17;
+    private javax.swing.JButton jButton18;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -2211,6 +2917,8 @@ ayirDialog.dispose();
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JDesktopPane jDesktopPane2;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JDialog jDialog2;
@@ -2228,10 +2936,10 @@ ayirDialog.dispose();
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -2271,8 +2979,10 @@ ayirDialog.dispose();
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JPopupMenu jPopupMenu1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField5;
@@ -2280,6 +2990,8 @@ ayirDialog.dispose();
     private javax.swing.JMenuItem kesMenu;
     private javax.swing.JMenuItem kopyalaMenu;
     private javax.swing.JTextField nedTF;
+    private javax.swing.JButton pieButton;
+    private javax.swing.JButton pieWoedButton;
     private javax.swing.JPopupMenu popupMenu;
     private javax.swing.JMenuItem silMenu;
     private javax.swing.JTextField telefon_TF;

@@ -179,7 +179,7 @@ private void filter(String query){
 
     private void PRINTBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PRINTBTActionPerformed
         MessageFormat header=new MessageFormat("Rapor Çıktı");
-        MessageFormat footer=new MessageFormat("Sayfa{0,number;integer}");
+        MessageFormat footer=new MessageFormat("Sayfa{0,number,integer}");
         try{
             jTable1.print(JTable.PrintMode.NORMAL,header,footer);
         }catch(java.awt.print.PrinterException e){

@@ -9,12 +9,15 @@ import controller.javaConnect;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 /**
@@ -26,9 +29,13 @@ public class login extends javax.swing.JFrame {
     Connection conn=null;
         PreparedStatement ps=null;
         ResultSet rs=null;
+        String login;
+        String password;
     public login() {
         initComponents();
         conn=javaConnect.ConnectDb();
+        setSize(400, 330);
+       
     }
 
     /**
@@ -40,26 +47,47 @@ public class login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jCheckBox1 = new javax.swing.JCheckBox();
-        jButton2 = new javax.swing.JButton();
         jPasswordField1 = new javax.swing.JPasswordField();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        led1 = new eu.hansolo.steelseries.extras.Led();
+        radar1 = new eu.hansolo.steelseries.extras.Radar();
+        jPanel3 = new javax.swing.JPanel();
+        yonRad = new javax.swing.JRadioButton();
+        kullRad = new javax.swing.JRadioButton();
+        jButton2 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("GİRİŞ EKRANI");
 
+        jPanel1.setLayout(null);
+
+        jLabel2.setBackground(new java.awt.Color(255, 255, 0));
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setLabelFor(this);
         jLabel2.setText("Kullanıcı Adı");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(30, 100, 117, 17);
 
+        jLabel3.setBackground(new java.awt.Color(255, 255, 0));
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Parola");
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(30, 130, 117, 17);
 
         jTextField1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jPanel1.add(jTextField1);
+        jTextField1.setBounds(150, 100, 190, 23);
 
         jCheckBox1.setText("Parolayı Göster");
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -67,17 +95,23 @@ public class login extends javax.swing.JFrame {
                 jCheckBox1ActionPerformed(evt);
             }
         });
-
-        jButton2.setText("GİRİŞ");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
+        jPanel1.add(jCheckBox1);
+        jCheckBox1.setBounds(240, 160, 99, 23);
 
         jPasswordField1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jPasswordField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jPasswordField1KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jPasswordField1KeyTyped(evt);
+            }
+        });
+        jPanel1.add(jPasswordField1);
+        jPasswordField1.setBounds(150, 130, 190, 23);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 204));
+        jPanel2.setToolTipText("");
         jPanel2.setPreferredSize(new java.awt.Dimension(750, 0));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -95,91 +129,149 @@ public class login extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(led1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addGap(24, 24, 24))
+                .addGap(18, 18, 18)
+                .addComponent(radar1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(165, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(jButton1))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(radar1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                        .addComponent(led1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(85, 85, 85)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(61, 61, 61)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
-                    .addComponent(jTextField1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-                .addComponent(jCheckBox1)
-                .addGap(35, 35, 35)
-                .addComponent(jButton2)
-                .addGap(23, 23, 23))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE)
-                    .addContainerGap()))
+        jPanel1.add(jPanel2);
+        jPanel2.setBounds(0, 0, 410, 0);
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Giriş Şeklini Seçiniz"));
+
+        buttonGroup1.add(yonRad);
+        yonRad.setText("Yönetici");
+        yonRad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                yonRadActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(kullRad);
+        kullRad.setText("Kullanıcı");
+        kullRad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                kullRadActionPerformed(evt);
+            }
+        });
+
+        jButton2.setIcon(new javax.swing.ImageIcon("C:\\tasarım1311012125\\personelOtamasyon\\button\\login5.jpeg")); // NOI18N
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton2MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton2MouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jButton2MousePressed(evt);
+            }
+        });
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(kullRad)
+                    .addComponent(yonRad))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(105, 105, 105)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jCheckBox1)
-                            .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 129, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(150, 150, 150)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(150, Short.MAX_VALUE)))
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(kullRad)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(yonRad)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+
+        jPanel1.add(jPanel3);
+        jPanel3.setBounds(80, 190, 261, 100);
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/resimler/20121011142519-24882353-th.jpg"))); // NOI18N
+        jPanel1.add(jLabel4);
+        jLabel4.setBounds(0, 20, 374, 280);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-Timer t1=new Timer(10, new ActionListener() {
+private void basarili(){
+  t1.start();
+    jLabel1.setText("Giriş Başarılı");
+            jLabel1.setForeground(Color.BLACK);
+            
+   led1.setCustomLedColor(Color.yellow);
+   led1.setLedBlinking(true);
+   radar1.animate(true);
+            jPanel2.setBackground(Color.green);
+  
+   JOptionPane.showMessageDialog(null, "Kulanıcı adı ve parola doğru");
+}
+    private void basarisiz(){
+        jLabel1.setText("Hatalı Giriş");
+            jLabel1.setForeground(Color.RED);
+            led1.setCustomLedColor(Color.black);
+            led1.setLedBlinking(true);
+            jPanel2.setBackground(Color.black);
+            t1.start();
+      //  JOptionPane.showMessageDialog(null, "Kulanıcı adı ve parola hatalı");
+    }
+    
+    Timer t1=new Timer(50, new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-     if( jPanel2.getHeight()!=75){
+     if( jPanel2.getHeight()!=90){
          jPanel2.setBounds(0, 0, login.this.getSize().width,jPanel2.getHeight()+5);
-         if(jPanel2.getHeight()==75){
+         if(jPanel2.getHeight()==90){
              t1.stop();
          }
      }
@@ -206,34 +298,123 @@ Timer t2=new Timer(30, new ActionListener() {
  }   
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
-        
-        
-        try {
-            ps=conn.prepareStatement("select * from girisTablo WHERE kullaniciAdi=? AND sifre=?");
-        ps.setString(1, jTextField1.getText());
-        ps.setString(2, jPasswordField1.getText());
-        rs=ps.executeQuery();
-        if(rs.next()){
-            jLabel1.setText("Giriş Başarılı");
-            jLabel1.setForeground(Color.GREEN);
-            t1.start();
-        }else{
-             jLabel1.setText("Hatalı Giriş");
-            jLabel1.setForeground(Color.RED);
-            t1.start();
-        }
-        } catch (SQLException ex) {
-            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 t2.start();
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void kullRadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kullRadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_kullRadActionPerformed
+
+    private void yonRadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yonRadActionPerformed
+
+    
+
+        
+// TODO add your handling code here:
+    }//GEN-LAST:event_yonRadActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+giris();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jPasswordField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField1KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPasswordField1KeyTyped
+
+    private void jPasswordField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField1KeyReleased
+if(evt.getKeyCode()==KeyEvent.VK_ENTER || evt.getKeyCode()==KeyEvent.VK_ACCEPT)
+    giris();
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPasswordField1KeyReleased
+
+    private void jButton2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseEntered
+jButton2.setIcon(new ImageIcon("button\\login3.jpeg"));
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2MouseEntered
+
+    private void jButton2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseExited
+jButton2.setIcon(new ImageIcon("button\\login5.jpeg"));
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2MouseExited
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+jButton2.setIcon(new ImageIcon("button\\login4.jpeg"));
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jButton2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MousePressed
+jButton2.setIcon(new ImageIcon("button\\login4.jpeg"));
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2MousePressed
+public void giris(){
+String kull,sifre,sql;
+int sicil = 0, sonuc=0;
+kull=jTextField1.getText();
+sifre=jPasswordField1.getText();
+if(kullRad.isSelected()){
+sql="select count(sicil),sicil from girisTablo where kullaniciAdi=? and sifre=?";
+try{
+    ps=conn.prepareStatement(sql);
+    ps.setString(1, kull);
+    ps.setString(2, sifre);
+    rs=ps.executeQuery();
+    while(rs.next()){
+        sicil=rs.getInt(2);
+        sonuc=rs.getInt(1);
+    }
+    if (sonuc>0){
+        javaConnect.sicil=sicil;
+        basarili();
+        new kullaniciEkrani().setVisible(true);
+                dispose();
+    } else basarisiz();
+}catch(Exception e){}finally{
+try{
+    ps.close();
+    rs.close();
+}catch(Exception e){}    
+}
+} else if (yonRad.isSelected()){
+ if(kull.equals("root") && sifre.equals("1"))   {
+        basarili();
+        new yoneticiEkrani().setVisible(true);
+        dispose();
+    
+ } else{
+ sql="select count(sicil),sicil from girisTablo where kullaniciAdi=? and sifre=? and yetki=?";
+try{
+    ps=conn.prepareStatement(sql);
+    ps.setString(1, kull);
+    ps.setString(2, sifre);
+    ps.setString(3, "Yönetici");
+    rs=ps.executeQuery();
+    while(rs.next()){
+        sicil=rs.getInt(2);
+        sonuc=rs.getInt(1);
+    }
+    if (sonuc>0){
+        javaConnect.sicil=sicil;
+        basarili();
+        new yoneticiEkrani().setVisible(true);
+        dispose();
+    } else basarisiz();
+        //JOptionPane.showMessageDialog(null, "Yanlış parola veya yetki durumu");
+}catch(Exception e){}finally{
+try{
+    ps.close();
+    rs.close();
+}catch(Exception e){}    
+}
+ }
+} else  
+    JOptionPane.showMessageDialog(null, "Seçeneklerden birini seçin");
+    
+}
+    
     /**
      * @param args the command line arguments
      */
@@ -270,15 +451,22 @@ t2.start();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JRadioButton kullRad;
+    private eu.hansolo.steelseries.extras.Led led1;
+    private eu.hansolo.steelseries.extras.Radar radar1;
+    private javax.swing.JRadioButton yonRad;
     // End of variables declaration//GEN-END:variables
 }

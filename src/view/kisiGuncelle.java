@@ -132,6 +132,7 @@ jTextField1.setText(sorgu.getSingleResult().getTCKimlik());
     jTextField25.setText(sorgu.getSingleResult().getDilderece());
     jTextField27.setText(sorgu.getSingleResult().getMezuniyet());
     jTextField26.setText(sorgu.getSingleResult().getMezuniyetBolum());
+    jTextField40.setText(sorgu.getSingleResult().getMaas());
 }catch(Exception e){
 }
 }
@@ -176,6 +177,7 @@ public void doldurGiris(int sicil){
     jTextField9.setText(sorgu.getSingleResult().getGorevsekli());
     jTextField2.setText(sorgu.getSingleResult().getAtamasekli());
     jTextField5.setText(sorgu.getSingleResult().getMemuriyetbaslama()); 
+    jTextField23.setText(sorgu.getSingleResult().getLojmanYararlanmaSure().toString());
     }catch(Exception e){
         
     }
@@ -321,6 +323,12 @@ public void doldurGiris(int sicil){
         jLabel34 = new javax.swing.JLabel();
         jTextField36 = new javax.swing.JTextField();
         jButton36 = new javax.swing.JButton();
+        jLabel26 = new javax.swing.JLabel();
+        jTextField40 = new javax.swing.JTextField();
+        jButton40 = new javax.swing.JButton();
+        jLabel36 = new javax.swing.JLabel();
+        jTextField23 = new javax.swing.JTextField();
+        jButton41 = new javax.swing.JButton();
 
         kesMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Library/16x16/cut.png"))); // NOI18N
         kesMenu.setText("kes");
@@ -335,6 +343,11 @@ public void doldurGiris(int sicil){
         popupMenu.add(yapistirMenu);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
 
@@ -565,7 +578,7 @@ public void doldurGiris(int sicil){
         jTextField1.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridy = 12;
         jPanel2.add(jTextField1, gridBagConstraints);
 
         jTextField2.setEditable(false);
@@ -714,7 +727,7 @@ public void doldurGiris(int sicil){
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridy = 12;
         jPanel2.add(jButton7, gridBagConstraints);
 
         jButton8.setText("değiştir");
@@ -753,49 +766,49 @@ public void doldurGiris(int sicil){
         jLabel19.setText("Tc Kimlik");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(jLabel19, gridBagConstraints);
 
         jLabel14.setText("Adres");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 13;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(jLabel14, gridBagConstraints);
 
         jLabel15.setText("Cinsiyet");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 13;
+        gridBagConstraints.gridy = 14;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(jLabel15, gridBagConstraints);
 
         jLabel17.setText("Doğum Tarihi");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridy = 15;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(jLabel17, gridBagConstraints);
 
         jLabel16.setText("Doğum Yeri");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 15;
+        gridBagConstraints.gridy = 16;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(jLabel16, gridBagConstraints);
 
         jLabel18.setText("Telefon");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 16;
+        gridBagConstraints.gridy = 17;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(jLabel18, gridBagConstraints);
 
         jLabel20.setText("Medeni Hal");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 17;
+        gridBagConstraints.gridy = 18;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(jLabel20, gridBagConstraints);
 
@@ -804,7 +817,7 @@ public void doldurGiris(int sicil){
         jTextField11.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 13;
         jPanel2.add(jTextField11, gridBagConstraints);
 
         jTextField12.setEditable(false);
@@ -812,7 +825,7 @@ public void doldurGiris(int sicil){
         jTextField12.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 13;
+        gridBagConstraints.gridy = 14;
         jPanel2.add(jTextField12, gridBagConstraints);
 
         jTextField13.setEditable(false);
@@ -820,7 +833,7 @@ public void doldurGiris(int sicil){
         jTextField13.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridy = 15;
         jPanel2.add(jTextField13, gridBagConstraints);
 
         jTextField14.setEditable(false);
@@ -828,7 +841,7 @@ public void doldurGiris(int sicil){
         jTextField14.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 15;
+        gridBagConstraints.gridy = 16;
         jPanel2.add(jTextField14, gridBagConstraints);
 
         jTextField15.setEditable(false);
@@ -836,7 +849,7 @@ public void doldurGiris(int sicil){
         jTextField15.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 16;
+        gridBagConstraints.gridy = 17;
         jPanel2.add(jTextField15, gridBagConstraints);
 
         jTextField16.setEditable(false);
@@ -844,7 +857,7 @@ public void doldurGiris(int sicil){
         jTextField16.setComponentPopupMenu(popupMenu);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 17;
+        gridBagConstraints.gridy = 18;
         jPanel2.add(jTextField16, gridBagConstraints);
 
         jTextField17.setEditable(false);
@@ -856,7 +869,7 @@ public void doldurGiris(int sicil){
         jPanel2.add(jTextField17, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(jSeparator1, gridBagConstraints);
@@ -869,7 +882,7 @@ public void doldurGiris(int sicil){
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 13;
         jPanel2.add(jButton11, gridBagConstraints);
 
         jButton12.setText("değiştir");
@@ -880,7 +893,7 @@ public void doldurGiris(int sicil){
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 13;
+        gridBagConstraints.gridy = 14;
         jPanel2.add(jButton12, gridBagConstraints);
 
         jButton13.setText("değiştir");
@@ -891,7 +904,7 @@ public void doldurGiris(int sicil){
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridy = 15;
         jPanel2.add(jButton13, gridBagConstraints);
 
         jButton14.setText("değiştir");
@@ -902,7 +915,7 @@ public void doldurGiris(int sicil){
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 16;
+        gridBagConstraints.gridy = 17;
         jPanel2.add(jButton14, gridBagConstraints);
 
         jButton15.setText("değiştir");
@@ -913,7 +926,7 @@ public void doldurGiris(int sicil){
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 15;
+        gridBagConstraints.gridy = 16;
         jPanel2.add(jButton15, gridBagConstraints);
 
         jButton16.setText("değiştir");
@@ -924,7 +937,7 @@ public void doldurGiris(int sicil){
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 17;
+        gridBagConstraints.gridy = 18;
         jPanel2.add(jButton16, gridBagConstraints);
 
         jButton17.setText("değiştir");
@@ -1402,6 +1415,57 @@ public void doldurGiris(int sicil){
         gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 4;
         jPanel2.add(jButton36, gridBagConstraints);
+
+        jLabel26.setText("Maaş Tertibi");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 16;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        jPanel2.add(jLabel26, gridBagConstraints);
+
+        jTextField40.setEditable(false);
+        jTextField40.setColumns(10);
+        jTextField40.setComponentPopupMenu(popupMenu);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 16;
+        jPanel2.add(jTextField40, gridBagConstraints);
+
+        jButton40.setText("değiştir");
+        jButton40.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton40ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 7;
+        gridBagConstraints.gridy = 16;
+        jPanel2.add(jButton40, gridBagConstraints);
+
+        jLabel36.setText("Lojmanda Faydalanma");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        jPanel2.add(jLabel36, gridBagConstraints);
+
+        jTextField23.setEditable(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        jPanel2.add(jTextField23, gridBagConstraints);
+
+        jButton41.setText("değiştir");
+        jButton41.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton41ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 10;
+        jPanel2.add(jButton41, gridBagConstraints);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
@@ -2521,6 +2585,87 @@ JFrame p=new JFrame();
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton39ActionPerformed
 
+    private void jButton40ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton40ActionPerformed
+        JFrame p=new JFrame();
+     p.setSize(300, 400);   
+     GridBagLayout bl=new GridBagLayout();
+        GridBagConstraints gbc=new GridBagConstraints();
+        gbc.gridx=0;
+        gbc.gridy=0;
+     p.setLayout(bl);
+     JComboBox kombo=new JComboBox();
+             kombo.addItem("Özel Bütçe");
+             kombo.addItem("Döner Sermaye");
+     
+     JButton b1=new JButton("Değiştir");
+        b1.addActionListener(new ActionListener() {
+         @Override
+         public void actionPerformed(ActionEvent e) {
+             String k=kombo.getSelectedItem().toString();
+                     mh=em.find(Malihaklar.class, sicil); 
+        mh.setMaas(k);
+        degistir(mh);
+        p.dispose();
+         }
+     });
+        
+        p.add(kombo,gbc);
+        gbc.gridx=1;
+        p.add(b1,gbc);
+        p.setLocationRelativeTo(null);
+        p.setVisible(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton40ActionPerformed
+
+    private void jButton41ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton41ActionPerformed
+ JFrame p=new JFrame();
+     p.setSize(300, 400);   
+     GridBagLayout bl=new GridBagLayout();
+        GridBagConstraints gbc=new GridBagConstraints();
+        gbc.gridx=0;
+        gbc.gridy=0;
+     p.setLayout(bl);
+     JTextField kombo=new JTextField();
+     String sql="select lojmanYararlanmaSure from atamaTablo";
+     try{
+         ps=conn.prepareStatement(sql);
+         rs=ps.executeQuery();
+         while(rs.next()){
+             String deger=rs.getString(1);
+             kombo.setText(deger);
+         }
+     }catch(Exception e){}
+     finally{
+         try{
+          rs.close();
+          ps.close();
+         }catch(Exception e){}
+     }
+     JButton b1=new JButton("Değiştir");
+        b1.addActionListener(new ActionListener() {
+         @Override
+         public void actionPerformed(ActionEvent e) {
+             int k=Integer.parseInt(kombo.getText());
+                     at=em.find(AtamaTablo.class, sicil); 
+        at.setLojmanYararlanmaSure(k);
+        degistir(at);
+        p.dispose();
+         }
+     });
+        
+        p.add(kombo,gbc);
+        gbc.gridx=1;
+        p.add(b1,gbc);
+        p.setLocationRelativeTo(null);
+        p.setVisible(true);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton41ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+yoneticiEkrani.yenile();
+// TODO add your handling code here:
+    }//GEN-LAST:event_formWindowClosing
+
     /**
      * @param args the command line arguments
      */
@@ -2592,6 +2737,8 @@ JFrame p=new JFrame();
     private javax.swing.JButton jButton38;
     private javax.swing.JButton jButton39;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton40;
+    private javax.swing.JButton jButton41;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
@@ -2616,6 +2763,7 @@ JFrame p=new JFrame();
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
@@ -2626,6 +2774,7 @@ JFrame p=new JFrame();
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel47;
@@ -2658,6 +2807,7 @@ JFrame p=new JFrame();
     private javax.swing.JTextField jTextField20;
     private javax.swing.JTextField jTextField21;
     private javax.swing.JTextField jTextField22;
+    private javax.swing.JTextField jTextField23;
     private javax.swing.JTextField jTextField24;
     private javax.swing.JTextField jTextField25;
     private javax.swing.JTextField jTextField26;
@@ -2676,6 +2826,7 @@ JFrame p=new JFrame();
     private javax.swing.JTextField jTextField38;
     private javax.swing.JTextField jTextField39;
     private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField40;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;

@@ -47,8 +47,10 @@ BarChartAWT b;
     pieChartAWT p;
     public Listeler() {
         initComponents();
-   conn=javaConnect.ConnectDb();
-         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        conn=javaConnect.ConnectDb();
+        
 jButton11.setVisible(false);
 jButton10.setVisible(false);
 jButton12.setVisible(false);
@@ -275,7 +277,7 @@ jButton13.setVisible(false);
                                         .addContainerGap()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                             .addComponent(jButton1)
-                                            .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                            .addComponent(jButton14))))
                                 .addGap(0, 17, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
@@ -328,7 +330,7 @@ jButton11.setVisible(true);
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         MessageFormat header=new MessageFormat(lab);
-        MessageFormat footer=new MessageFormat("Sayfa{0,number;integer}");
+        MessageFormat footer=new MessageFormat("Sayfa{0,number,integer}");
         try{
             tablo.print(JTable.PrintMode.NORMAL,header,footer);
         }catch(java.awt.print.PrinterException e){
@@ -488,15 +490,19 @@ jButton13.setVisible(false);
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void RAPORBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RAPORBTActionPerformed
+    try {
         //try{
-            //    String report="C:\\Users\\Ruhi ÇELİK\\Documents\\NetBeansProjects\\projec123JPA\\report1.jrxml";
-            //    JasperReport jr=JasperCompileManager.compileReport(report);
-            //    JasperPrint jp=JasperFillManager.fillReport(jr,null,conn);
-            //    JasperViewer.viewReport(jp);
-            //}catch(Exception e){}
+        //    String report="C:\\Users\\Ruhi ÇELİK\\Documents\\NetBeansProjects\\projec123JPA\\report1.jrxml";
+        //    JasperReport jr=JasperCompileManager.compileReport(report);
+        //    JasperPrint jp=JasperFillManager.fillReport(jr,null,conn);
+        //    JasperViewer.viewReport(jp);
+        //}catch(Exception e){}
         // TODO add your handling code here:
         
         new jasperReportYap().raporla(path, sql);
+    } catch (IOException ex) {
+        Logger.getLogger(Listeler.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }//GEN-LAST:event_RAPORBTActionPerformed
 
     /**

@@ -4,7 +4,6 @@ import controller.javaConnect;
 import entities.AtamaTablo;
 import entities.GirisTablo;
 import entities.Izindurum;
-import entities.Izingiris;
 import entities.KimlikTablo;
 import entities.Malihaklar;
 import java.awt.Color;
@@ -12,22 +11,16 @@ import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import static java.util.Collections.list;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import model.PopupActionListener;
 import net.proteanit.sql.DbUtils;
 
@@ -82,8 +75,8 @@ setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 }
 public void doldurKimlik(){
     try{
-    TypedQuery<KimlikTablo> sorgu=em.createNamedQuery("KimlikTablo.findBySicil",KimlikTablo.class).setParameter("sicil", sicil);
-    jTextField1.setText(sorgu.getSingleResult().getSicil().toString());
+TypedQuery<KimlikTablo> sorgu=em.createNamedQuery("KimlikTablo.findBySicil",KimlikTablo.class).setParameter("sicil", sicil);
+jTextField1.setText(sorgu.getSingleResult().getSicil().toString());
 jTextField2.setText(sorgu.getSingleResult().getTelefon());
 jTextArea1.setText(sorgu.getSingleResult().getAdres());
 jTextField4.setText(sorgu.getSingleResult().getCinsiyet());
@@ -125,7 +118,7 @@ public void doldurMali(){
     else jTextField23.setText("Yok");
     jTextField24.setText(sorgu.getSingleResult().getCocuk().toString());
     
-    
+    jTextField72.setText(sorgu.getSingleResult().getMaas());
     jTextField26.setText(sorgu.getSingleResult().getSendika());
     jTextField27.setText(sorgu.getSingleResult().getYabancidil());
     jTextField28.setText(sorgu.getSingleResult().getDilderece());
@@ -355,6 +348,8 @@ public void doldurGorev(){
         jTextField29 = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
         jTextField30 = new javax.swing.JTextField();
+        jLabel77 = new javax.swing.JLabel();
+        jTextField72 = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
         jLabel42 = new javax.swing.JLabel();
         jLabel43 = new javax.swing.JLabel();
@@ -1011,6 +1006,20 @@ public void doldurGorev(){
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 11;
         jPanel6.add(jTextField30, gridBagConstraints);
+
+        jLabel77.setText("Maaş aldığı Bütçe Tertibi");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        jPanel6.add(jLabel77, gridBagConstraints);
+
+        jTextField72.setEditable(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        jPanel6.add(jTextField72, gridBagConstraints);
 
         kimlikPanel.addTab("Mali Haklar", jPanel6);
 
@@ -1908,7 +1917,11 @@ public void doldurGorev(){
         });
         jScrollPane6.setViewportView(jTable5);
 
-        jPanel11.add(jScrollPane6, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 5;
+        jPanel11.add(jScrollPane6, gridBagConstraints);
 
         kimlikPanel.addTab("Ödül Bilgileri", jPanel11);
 
@@ -1992,7 +2005,6 @@ jTextField42.setText(rs.getString(1));
 jTextField43.setText(rs.getString(2));
 jComboBox1.setSelectedItem(rs.getString(3));
 jTextField45.setText(rs.getString(4));
-
 jTextField47.setText(rs.getString(6));
 jTextField48.setText(rs.getString(7));
 jTextField49.setText(rs.getString(8));
@@ -2205,14 +2217,14 @@ temizle2();
 
     private void jTable4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable4MouseClicked
  int row=jTable4.getSelectedRow();
- int tableClick=Integer.parseInt((jTable4.getModel().getValueAt(row, 0)));
+ String tableClick=jTable4.getModel().getValueAt(row, 0).toString();
         tabloGez3(tableClick);
     }//GEN-LAST:event_jTable4MouseClicked
 
     private void jTable4KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable4KeyReleased
  if(evt.getKeyCode()==KeyEvent.VK_UP||evt.getKeyCode()==KeyEvent.VK_DOWN){
 int row=jTable4.getSelectedRow();
- int tableClick=Integer.parseInt((jTable4.getModel().getValueAt(row, 0)));
+ String tableClick=jTable4.getModel().getValueAt(row, 0).toString();
         tabloGez3(tableClick);}        // TODO add your handling code here:
     }//GEN-LAST:event_jTable4KeyReleased
 
@@ -2247,7 +2259,7 @@ jTextField41.setText(gt.getSifre());
     private void jTable7KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable7KeyReleased
   if(evt.getKeyCode()==KeyEvent.VK_UP||evt.getKeyCode()==KeyEvent.VK_DOWN){
 int row=jTable7.getSelectedRow();
- int tableClick=Integer.parseInt((jTable7.getModel().getValueAt(row, 0)));
+ String tableClick=jTable7.getModel().getValueAt(row, 0).toString();
         tabloGez7(tableClick);}        
         // TODO add your handling code here:
     }//GEN-LAST:event_jTable7KeyReleased
@@ -2255,7 +2267,7 @@ int row=jTable7.getSelectedRow();
     private void jTable7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable7MouseClicked
  
 int row=jTable7.getSelectedRow();
- int tableClick=Integer.parseInt((jTable7.getModel().getValueAt(row, 0)));
+ String tableClick=jTable7.getModel().getValueAt(row, 0).toString();
         tabloGez7(tableClick);       
         // TODO add your handling code here:
     }//GEN-LAST:event_jTable7MouseClicked
@@ -2263,14 +2275,14 @@ int row=jTable7.getSelectedRow();
     private void jTable6KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable6KeyReleased
  if(evt.getKeyCode()==KeyEvent.VK_UP||evt.getKeyCode()==KeyEvent.VK_DOWN){
 int row=jTable6.getSelectedRow();
- String tableClick=Integer.parseInt((jTable6.getModel().getValueAt(row, 0)));
+ String tableClick=jTable6.getModel().getValueAt(row, 0).toString();
         tabloGez6(tableClick);} 
         // TODO add your handling code here:
     }//GEN-LAST:event_jTable6KeyReleased
 
     private void jTable6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable6MouseClicked
  int row=jTable6.getSelectedRow();
- String tableClick=Integer.parseInt((jTable6.getModel().getValueAt(row, 0)));
+ String tableClick=jTable6.getModel().getValueAt(row, 0).toString();
         tabloGez6(tableClick);
         // TODO add your handling code here:
     }//GEN-LAST:event_jTable6MouseClicked
@@ -2278,14 +2290,14 @@ int row=jTable6.getSelectedRow();
     private void jScrollPane6KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jScrollPane6KeyReleased
  if(evt.getKeyCode()==KeyEvent.VK_UP||evt.getKeyCode()==KeyEvent.VK_DOWN){
 int row=jTable5.getSelectedRow();
- int tableClick=Integer.parseInt((jTable5.getModel().getValueAt(row, 0)));
+ String tableClick=jTable5.getModel().getValueAt(row, 0).toString();
         tabloGez5(tableClick);} 
         // TODO add your handling code here:
     }//GEN-LAST:event_jScrollPane6KeyReleased
 
     private void jTable5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable5MouseClicked
  int row=jTable5.getSelectedRow();
- int tableClick=Integer.parseInt((jTable5.getModel().getValueAt(row, 0)));
+ String tableClick=jTable5.getModel().getValueAt(row, 0).toString();
         tabloGez5(tableClick);
 
         // TODO add your handling code here:
@@ -2339,11 +2351,11 @@ public void temizle2(){
     jComboBox2.setSelectedItem("");
     jDateChooser2.cleanup();
 }   
-public void tabloGez3(int num){
+public void tabloGez3(String num){
         try{
         String sql="select * from job where id=?";
     ps=conn.prepareStatement(sql);
-    ps.setInt(1, num);
+    ps.setString(1, num);
 rs=ps.executeQuery();
 if(rs.next()){
 jTextField53.setText(rs.getString(1));
@@ -2363,11 +2375,11 @@ jTextField60.setText(rs.getString(8));
         }catch(Exception e){}
     }
 }
-public void tabloGez5(int num){
+public void tabloGez5(String num){
         try{
         String sql="select * from odulTablo where id=?";
     ps=conn.prepareStatement(sql);
-    ps.setInt(1, num);
+    ps.setString(1, num);
 rs=ps.executeQuery();
 if(rs.next()){
 jTextField25.setText(rs.getString(1));
@@ -2383,11 +2395,11 @@ jTextField63.setText(rs.getString(3));
         }catch(Exception e){}
     }
 }
-public void tabloGez7(int num){
+public void tabloGez7(String num){
         try{
         String sql="select * from disiplinTablo where id=?";
     ps=conn.prepareStatement(sql);
-    ps.setInt(1, num);
+    ps.setString(1, num);
 rs=ps.executeQuery();
 if(rs.next()){
 jTextField68.setText(rs.getString(1));
@@ -2535,6 +2547,7 @@ private boolean kimlik_format(){
     private javax.swing.JLabel jLabel74;
     private javax.swing.JLabel jLabel75;
     private javax.swing.JLabel jLabel76;
+    private javax.swing.JLabel jLabel77;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -2635,6 +2648,7 @@ private boolean kimlik_format(){
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField70;
     private javax.swing.JTextField jTextField71;
+    private javax.swing.JTextField jTextField72;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     private javax.swing.JMenuItem kesMenu;

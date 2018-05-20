@@ -70,6 +70,7 @@ int buyil=0;
     public lojmanEkran() {
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 conn=javaConnect.ConnectDb();
 sicil=javaConnect.sicil;
 emf=javax.persistence.Persistence.createEntityManagerFactory("personelOtamasyonPU");
@@ -537,7 +538,7 @@ String[] sic=k.split("-");
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         MessageFormat header=new MessageFormat("Rapor Çıktı");
-        MessageFormat footer=new MessageFormat("Sayfa{0,number;integer}");
+        MessageFormat footer=new MessageFormat("Sayfa{0,number,integer}");
         try{
             jTable1.print(JTable.PrintMode.NORMAL,header,footer);
         }catch(java.awt.print.PrinterException e){

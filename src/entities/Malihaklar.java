@@ -66,7 +66,16 @@ public class Malihaklar implements Serializable {
     private String mezuniyet;
     @Column(name = "mezuniyetBolum")
     private String mezuniyetBolum;
+@Column(name = "maas")
+    private String maas;
 
+    public String getMaas() {
+        return maas;
+    }
+
+    public void setMaas(String maas) {
+        this.maas = maas;
+    }
     public Malihaklar() {
     }
 
